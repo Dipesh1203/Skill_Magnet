@@ -1,0 +1,35 @@
+@import "../../vars.css";
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 49px;
+  z-index: 1;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.signup {
+  margin: auto;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 90%;
+  height: 100vh;
+  border-radius: 20px;
+  z-index: 1;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  background-color: rgba(25, 55, 109, 0.49);
+  margin: auto;
+  margin-top: 10px;
+  padding: 25px;
+  border-radius: 10px;
+  z-index: 1;
+}
