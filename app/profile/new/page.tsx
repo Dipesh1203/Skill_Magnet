@@ -1,14 +1,12 @@
-// app/profile/new/page.tsx
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 const CreateProfile = () => {
   const { data: session, status } = useSession();
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [image, setImage] = useState("");
   const [headline, setHeadline] = useState("");
   const [intro, setIntro] = useState("");
   const [skills, setSkills] = useState<string[]>([]);
@@ -54,8 +52,8 @@ const CreateProfile = () => {
         body: JSON.stringify({
           name,
           userName: session.user.username,
-          email,
-          image,
+          email: session.user.email,
+          image: session.user.image,
           headline,
           intro,
           skills,
@@ -78,15 +76,15 @@ const CreateProfile = () => {
   };
 
   return (
-    <div className="p-5 m-5 flex flex-col">
-      <h1 className="h1 size-20">Create a Profile</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {loading && <p>Loading...</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="flex flex-col p-5">
-          <label htmlFor="name">Name</label>
+    <div className="p-8 max-w-4xl mx-auto mt-10 bg-gradient-to-r from-bg-black to-customBack_primary_1 rounded-lg shadow-lg">
+      <h1 className="text-white text-4xl font-bold mb-6">Create a Profile</h1>
+      {error && <p className="text-red-500 mb-4">{error}</p>}
+      {loading && <p className="text-white mb-4">Loading...</p>}
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block text-gray-400">Name</label>
           <input
-            className="text-slate-900"
+            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
             id="name"
             type="text"
             value={name}
@@ -94,31 +92,10 @@ const CreateProfile = () => {
             required
           />
         </div>
-        <div className="flex flex-col p-5">
-          <label htmlFor="email">Email</label>
+        <div>
+          <label className="block text-gray-400">Headline</label>
           <input
-            className="text-slate-900"
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="flex flex-col p-5">
-          <label htmlFor="image">Image URL</label>
-          <input
-            className="text-slate-900"
-            id="image"
-            type="text"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-          />
-        </div>
-        <div className="flex flex-col p-5">
-          <label htmlFor="headline">Headline</label>
-          <input
-            className="text-slate-900"
+            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
             id="headline"
             type="text"
             value={headline}
@@ -126,44 +103,55 @@ const CreateProfile = () => {
             required
           />
         </div>
-        <div className="flex flex-col p-5">
-          <label htmlFor="intro">Intro</label>
+        <div>
+          <label className="block text-gray-400">Intro</label>
           <textarea
-            className="text-slate-900"
+            className="w-full p-3 h-24 rounded bg-gray-800 text-white focus:outline-none"
             id="intro"
             value={intro}
             onChange={(e) => setIntro(e.target.value)}
             required
           />
         </div>
-        <div className="flex flex-col p-5">
-          <label htmlFor="skills">Skills</label>
-          <div className="flex flex-col p-5">
+        <div>
+          <label className="block text-gray-400">Skills</label>
+          <div className="flex space-x-2 mb-3">
             <input
-              className="text-slate-900"
+              className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
               id="skillInput"
               type="text"
               value={skillInput}
               onChange={(e) => setSkillInput(e.target.value)}
             />
-            <button type="button" onClick={handleSkillAdd}>
-              Add Skill
+            <button
+              type="button"
+              onClick={handleSkillAdd}
+              className="bg-[#576CBC] px-4 py-2 rounded text-white"
+            >
+              Add
             </button>
           </div>
-          <ul>
+          <div className="flex flex-wrap gap-2">
             {skills.map((skill, index) => (
-              <li key={index}>
-                {skill}
-                <button type="button" onClick={() => handleSkillRemove(index)}>
-                  Remove
+              <div
+                key={index}
+                className="bg-[#576bbcd6] text-white px-3 py-1 rounded-full flex items-center space-x-2"
+              >
+                <span>{skill}</span>
+                <button
+                  type="button"
+                  onClick={() => handleSkillRemove(index)}
+                  className="text-xs text-red-500"
+                >
+                  ✕
                 </button>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
         <button
           type="submit"
-          className="bg-white rounded-sm text-slate-900 p-4"
+          className="w-full bg-[#576CBC] text-white py-3 rounded-lg mt-4"
           disabled={loading}
         >
           Create Profile

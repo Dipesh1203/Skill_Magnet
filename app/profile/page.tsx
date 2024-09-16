@@ -3,6 +3,10 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import profileImage from "./../../public/assets/hero/heroImage.png";
+import Banner from "../components/Banner/Banner";
+import Skill from "../components/Skill/Skill";
+import Contact from "../components/Contact/Contact";
 
 interface UserProfile {
   _id: string;
@@ -107,63 +111,10 @@ export default function CurrentUserProfile() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Your Profile</h1>
-      <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-        <div className="p-4">
-          <div className="flex items-center mb-4">
-            {profile.image ? (
-              <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center text-2xl text-gray-600 overflow-hidden">
-                <Image
-                  src={
-                    profile.image.startsWith("http")
-                      ? profile.image
-                      : "/default-image.png"
-                  }
-                  alt={profile.name}
-                  width={96}
-                  height={96}
-                  className="object-cover"
-                />
-              </div>
-            ) : (
-              <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center text-2xl text-gray-600">
-                {profile.name.charAt(0)}
-              </div>
-            )}
-            <div className="ml-4">
-              <h2 className="text-2xl font-bold">{profile.name}</h2>
-              <p className="text-gray-600">@{profile.userName}</p>
-              <p className="text-gray-600">{profile.email}</p>
-            </div>
-          </div>
-          <p className="text-lg font-semibold mb-2">{profile.headline}</p>
-          <p className="text-gray-700 mb-4">{profile.intro}</p>
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold mb-2">Skills</h3>
-            <div className="flex flex-wrap">
-              {profile.skills.map((skill, index) => (
-                <span
-                  key={index}
-                  className="bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2 mb-2"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
-          {profile.projects.length > 0 && (
-            <div>
-              <h3 className="text-xl font-semibold mb-2">Projects</h3>
-              <ul className="list-disc list-inside">
-                {profile.projects.map((project, index) => (
-                  <li key={index}>{project.name}</li> // Adjust based on your project structure
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+    <>
+      <Banner data={profile} />
+      <Skill data={profile} />
+      <Contact data={profile} />
+    </>
   );
 }

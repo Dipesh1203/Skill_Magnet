@@ -50,6 +50,7 @@ export async function POST(request: NextRequest) {
     // Create a new profile
     const newProfile = new Profile(data);
     await newProfile.save();
+    console.log("=============-", newProfile);
 
     // Respond with the created profile
     return NextResponse.json(newProfile);

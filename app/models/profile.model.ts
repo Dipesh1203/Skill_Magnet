@@ -22,13 +22,13 @@ const profileSchema = new Schema({
     type: String,
     required: true,
     minlength: 5,
-    maxlength: 50,
+    maxlength: 200,
   },
   intro: {
     type: String,
     required: true,
     minlength: 5,
-    maxlength: 100,
+    maxlength: 1000,
   },
   skills: {
     type: [String],

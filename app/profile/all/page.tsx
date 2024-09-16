@@ -1,6 +1,16 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import defaultProfileIcon from "./../../../public/assets/defaultProfileIcon.png";
 
 interface UserProfile {
   _id: string;
@@ -43,59 +53,45 @@ async function getAllUserProfiles(): Promise<UserProfile[]> {
   }
 }
 
-function ProfileCard({ profile }: { profile: UserProfile }) {
+function ProfileCard1({ profile }: { profile: UserProfile }) {
+  console.log(profile.image);
+
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden">
-      <div className="p-4">
-        <div className="flex items-center mb-4">
-          {profile.image ? (
-            <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-xl text-gray-600 overflow-hidden">
-              <Image
-                src="/api/placeholder/48/48"
-                alt={profile.name}
-                width={48}
-                height={48}
-                className="object-cover"
-              />
-            </div>
-          ) : (
-            <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-xl text-gray-600">
-              {profile.name.charAt(0)}
-            </div>
-          )}
-          <div className="ml-4">
-            <h2 className="text-xl font-bold">{profile.name}</h2>
-            <p className="text-gray-600">@{profile.userName}</p>
-            <p className="text-gray-600">Email : {profile.email}</p>
+    <Card className="bg-[#19366d9f] border-0 text-slate-50">
+      <CardHeader>
+        {profile.image ? (
+          <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center text-2xl text-gray-600 overflow-hidden">
+            <Image
+              src={
+                profile.image.startsWith("http")
+                  ? profile.image
+                  : defaultProfileIcon
+              }
+              alt={profile.name}
+              width={96}
+              height={96}
+              className="object-cover"
+            />
           </div>
-        </div>
-        <p className="text-gray-700 mb-2">{profile.headline}</p>
-        <div className="mb-4">
-          <h3 className="text-lg font-semibold mb-2">Skills</h3>
-          <div className="flex flex-wrap">
-            {profile.skills.slice(0, 3).map((skill, index) => (
-              <span
-                key={index}
-                className="bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2 mb-2 text-sm"
-              >
-                {skill}
-              </span>
-            ))}
-            {profile.skills.length > 3 && (
-              <span className="text-gray-500 text-sm">
-                +{profile.skills.length - 3} more
-              </span>
-            )}
+        ) : (
+          <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center text-2xl text-gray-600">
+            {profile.name.charAt(0)}
           </div>
-        </div>
-        <Link
-          href={`/profile/${profile._id}`}
-          className="text-blue-500 hover:underline"
-        >
-          View Full Profile
-        </Link>
-      </div>
-    </div>
+        )}
+        <CardTitle>{profile.name}</CardTitle>
+        <CardDescription className="text-slate-100">
+          @{profile.userName}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p>{profile.intro}</p>
+      </CardContent>
+      <CardFooter>
+        <Button asChild>
+          <Link href={`/profile/${profile._id}`}>View Profile</Link>
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }
 
@@ -131,11 +127,13 @@ export default async function AllUserProfiles() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">All User Profiles</h1>
+    <div className="bg-[#0b24478c] max-w-6xl mx-auto p-8 rounded-md">
+      <h1 className="text-3xl font-bold mb-6 text-slate-50">
+        All User Profiles
+      </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {profiles.map((profile) => (
-          <ProfileCard key={profile._id} profile={profile} />
+          <ProfileCard1 key={profile._id} profile={profile} />
         ))}
       </div>
     </div>
