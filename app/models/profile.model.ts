@@ -1,8 +1,20 @@
-import mongoose from "mongoose";
-const Schema = mongoose.Schema;
-// import { Project } from "./projects.model"; // If unused, you can remove this import.
+import mongoose, { Document, Schema } from "mongoose";
 
-const profileSchema = new Schema({
+// Define the Profile interface
+export interface IProfile extends Document {
+  name: string;
+  userName: string;
+  email: string;
+  image?: string;
+  headline: string;
+  intro: string;
+  skills?: string[];
+  projects?: mongoose.Types.ObjectId[];
+  owner: mongoose.Types.ObjectId;
+}
+
+// Define the Profile schema
+const profileSchema = new Schema<IProfile>({
   name: {
     type: String,
     required: true,
@@ -33,8 +45,6 @@ const profileSchema = new Schema({
   skills: {
     type: [String],
   },
-  // Uncomment if needed
-
   projects: {
     type: [Schema.Types.ObjectId],
     ref: "Project",
@@ -47,4 +57,4 @@ const profileSchema = new Schema({
 
 // Use existing model if it exists, otherwise create a new one
 export const Profile =
-  mongoose.models.Profile || mongoose.model("Profile", profileSchema);
+  mongoose.models.Profile || mongoose.model<IProfile>("Profile", profileSchema);

@@ -13,11 +13,10 @@ const Navigation = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const items = [
-    { href: "/home", label: "Home" },
-    { href: "/about", label: "About" },
+    { href: "/", label: "Home" },
     { href: "/dashboard", label: "Dashboard" },
-    { href: "/profile/all", label: "All Profiles" },
-    { href: "/profile", label: "View Your Profile" },
+    { href: "/project/", label: "Explore" },
+    { href: "/profile", label: "Profile" },
   ];
 
   return (

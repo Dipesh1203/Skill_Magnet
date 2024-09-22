@@ -4,9 +4,14 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import profileImage from "./../../public/assets/hero/heroImage.png";
-import Banner from "../components/Banner/Banner";
-import Skill from "../components/Skill/Skill";
-import Contact from "../components/Contact/Contact";
+import Banner from "../../components/Banner/Banner";
+import Skill from "../../components/Skill/Skill";
+import Contact from "../../components/Contact/Contact";
+import { LampContainer } from "@/components/ui/lamp";
+import * as motion from "framer-motion/client";
+import ProjectCard from "@/app/components/Project/Project";
+import { IProject } from "@/app/models/projects.model";
+import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
 interface UserProfile {
   _id: string;
@@ -17,13 +22,14 @@ interface UserProfile {
   headline: string;
   intro: string;
   skills: string[];
-  projects: any[]; // Consider defining a more specific type for projects
+  projects: IProject[]; // Consider defining a more specific type for projects
 }
 
 export default function CurrentUserProfile() {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [projects, setProjects] = useState<IProject[] | null>(null);
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -64,7 +70,22 @@ export default function CurrentUserProfile() {
         if (!data) {
           throw new Error("Profile not found");
         }
-
+        const projectUrl = new URL(`/api/projects/profile/${data._id}`, apiUrl);
+        const res1 = await fetch(projectUrl.toString(), {
+          credentials: "include", // This is important for including cookies in the request
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (!res1.ok) {
+          const errorBody = await res1.text();
+          console.error(
+            `HTTP error! status: ${res1.status}, body: ${errorBody}`
+          );
+          throw new Error(`Failed to fetch project: ${res1.statusText}`);
+        }
+        const fetchProject = await res1.json();
+        setProjects(fetchProject);
         setProfile(data);
       } catch (err) {
         setError(
@@ -114,6 +135,22 @@ export default function CurrentUserProfile() {
     <>
       <Banner data={profile} />
       <Skill data={profile} />
+
+      {projects && projects.length > 0 && (
+        <div className="w-4/5 flex flex-col mx-auto my-20 p-10 rounded-lg dark:bg-[#19376D]">
+          <h1 className="text-white text-4xl font-bold">Projects</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects?.map((project) => (
+              <ProjectCard
+                key={project._id}
+                project={project}
+                defaultProjectImage={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6Pjlp3QsEwodfncokjV6dw7Ju9p4--J_PJg&usqp=CAU`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
       <Contact data={profile} />
     </>
   );

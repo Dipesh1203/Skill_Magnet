@@ -1,34 +1,45 @@
+// tailwind.config.js
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"],
+  darkMode: "class", // Enable dark mode using a class
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
+      // Set up custom font family
       fontFamily: {
         outfit: ["Outfit", "sans-serif"],
       },
+      // Set up background gradients
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
+      // Configure dark and light mode colors
       colors: {
-        bg: "#04152d",
-        bg1: {
-          100: "7AA7FF",
-          200: "0B2447",
-          300: "19376D",
+        // Light Mode Colors
+        custom_light: "#576CBC", // Light background
+        custom_light2: "#1e40af", // Light primary color
+        custom_dark1: "#04152D", // Light primary color
+        custom_dark2: "#0B2447", // Light primary color
+        textPrimary: "#111827", // Dark text for light mode
+
+        // Dark Mode Colors
+        dark: {
+          bg: "#0f172a", // Dark background
+          customBack: "#1e293b", // Dark custom background
+          customBack_primary: "#334155", // Dark primary color
+          textPrimary: "#f8fafc", // Light text for dark mode
         },
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
@@ -59,19 +70,31 @@ const config: Config = {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        chart: {
-          "1": "hsl(var(--chart-1))",
-          "2": "hsl(var(--chart-2))",
-          "3": "hsl(var(--chart-3))",
-          "4": "hsl(var(--chart-4))",
-          "5": "hsl(var(--chart-5))",
+      },
+      // Customize border radius
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      // Add animations for interactive components
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
   plugins: [require("tailwindcss-animate")],
 };
+
 export default config;

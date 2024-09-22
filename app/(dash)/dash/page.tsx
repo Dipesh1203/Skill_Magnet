@@ -1,7 +1,19 @@
 "use client";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
+import {
+  IconArrowLeft,
+  IconBrandTabler,
+  IconSettings,
+  IconUserBolt,
+} from "@tabler/icons-react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useSession, signOut } from "next-auth/react";
+import { cn } from "@/lib/utils";
 
 interface UserProfile {
   _id: string;
@@ -14,8 +26,108 @@ interface UserProfile {
   skills: string[];
   projects: any[]; // Consider defining a more specific type for projects
 }
+function SidebarDemo() {
+  const links = [
+    {
+      label: "Dashboard",
+      href: "#",
+      icon: (
+        <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Profile",
+      href: "#",
+      icon: (
+        <IconUserBolt className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Settings",
+      href: "#",
+      icon: (
+        <IconSettings className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Logout",
+      href: "#",
+      icon: (
+        <IconArrowLeft className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+  ];
+  const [open, setOpen] = useState(false);
+  return (
+    <div
+      className={cn(
+        "rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 max-w-7xl  border border-neutral-200 dark:border-neutral-700 overflow-hidden",
+        "h-[100vh]" // for your use case, use `h-screen` instead of `h-[60vh]`
+      )}
+    >
+      <Sidebar open={open} setOpen={setOpen}>
+        <SidebarBody className="justify-between gap-10">
+          <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+            {open ? <Logo /> : <LogoIcon />}
+            <div className="mt-8 flex flex-col gap-2">
+              {links.map((link, idx) => (
+                <SidebarLink key={idx} link={link} />
+              ))}
+            </div>
+          </div>
+          <div>
+            <SidebarLink
+              link={{
+                label: "Manu Arora",
+                href: "#",
+                icon: (
+                  <Image
+                    src="https://assets.aceternity.com/manu.png"
+                    className="h-7 w-7 flex-shrink-0 rounded-full"
+                    width={50}
+                    height={50}
+                    alt="Avatar"
+                  />
+                ),
+              }}
+            />
+          </div>
+        </SidebarBody>
+      </Sidebar>
+      <Dashboard />
+    </div>
+  );
+}
+const Logo = () => {
+  return (
+    <Link
+      href="#"
+      className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
+    >
+      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+      <motion.span
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="font-medium text-black dark:text-white whitespace-pre"
+      >
+        Acet Labs
+      </motion.span>
+    </Link>
+  );
+};
+const LogoIcon = () => {
+  return (
+    <Link
+      href="#"
+      className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
+    >
+      <div className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+    </Link>
+  );
+};
 
-const DashBoard = () => {
+// Dummy dashboard component with content
+const Dashboard = () => {
   const { data: session, status } = useSession();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [name, setName] = useState("");
@@ -143,35 +255,19 @@ const DashBoard = () => {
       setLoading(false);
     }
   };
-
   return (
-    <div className="p-8 max-w-4xl mx-auto mt-10 bg-gradient-to-r from-bg-black to-customBack_primary_1 rounded-lg shadow-lg">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-white text-4xl font-bold">Dashboard</h1>
-        <button onClick={() => signOut()} className="text-white underline">
-          Logout
-        </button>
-      </div>
-
-      <div className="flex">
-        <div className="w-2/3 pr-10">
+    <div className="w-3/4">
+      <Tabs defaultValue="dashboard">
+        <TabsList className="grid grid-cols-2 w-full">
+          <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+          <TabsTrigger value="projects">Projects</TabsTrigger>
+        </TabsList>
+        <TabsContent value="dashboard">
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label className="block text-gray-400">User Name</label>
-              <input
-                className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
-                id="username"
-                type="text"
-                disabled
-                placeholder={session.user.username || ""}
-              />
-            </div>
-
             <div>
               <label className="block text-gray-400">Name</label>
               <input
                 className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
-                id="name"
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -180,21 +276,9 @@ const DashBoard = () => {
             </div>
 
             <div>
-              <label className="block text-gray-400">Email</label>
-              <input
-                className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
-                id="email"
-                type="text"
-                disabled
-                placeholder={profile?.email || ""}
-              />
-            </div>
-
-            <div>
               <label className="block text-gray-400">Headline</label>
               <input
                 className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
-                id="headline"
                 type="text"
                 value={headline}
                 onChange={(e) => setHeadline(e.target.value)}
@@ -206,7 +290,6 @@ const DashBoard = () => {
               <label className="block text-gray-400">Intro</label>
               <textarea
                 className="w-full p-3 h-24 rounded bg-gray-800 text-white focus:outline-none"
-                id="intro"
                 value={intro}
                 onChange={(e) => setIntro(e.target.value)}
                 placeholder={profile?.intro || ""}
@@ -218,15 +301,13 @@ const DashBoard = () => {
               <div className="flex space-x-2 mb-3">
                 <input
                   className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
-                  id="skillInput"
-                  type="text"
                   value={skillInput}
                   onChange={(e) => setSkillInput(e.target.value)}
                 />
                 <button
                   type="button"
                   onClick={handleSkillAdd}
-                  className="bg-[#576CBC] px-4 py-2 rounded text-white"
+                  className="bg-blue-600 px-4 py-2 rounded text-white"
                 >
                   Add
                 </button>
@@ -235,13 +316,13 @@ const DashBoard = () => {
                 {skills.map((skill, index) => (
                   <div
                     key={index}
-                    className="bg-[#576bbcd6] text-white px-3 py-1 rounded-full flex items-center space-x-2"
+                    className="bg-blue-600 text-white px-3 py-1 rounded-full flex items-center"
                   >
                     <span>{skill}</span>
                     <button
                       type="button"
                       onClick={() => handleSkillRemove(index)}
-                      className="text-xs text-red-500"
+                      className="text-xs ml-2 text-red-500"
                     >
                       ✕
                     </button>
@@ -252,24 +333,17 @@ const DashBoard = () => {
 
             <button
               type="submit"
-              className="w-1/4 bg-[#576CBC] text-white py-3 rounded-lg mt-4"
+              className="w-full bg-blue-600 text-white py-3 rounded-lg"
               disabled={loading}
             >
-              Edit
+              Save Changes
             </button>
           </form>
-        </div>
+        </TabsContent>
 
-        <div className="w-1/3 flex justify-center items-center">
-          <img
-            src={profile?.image || "/default-avatar.png"}
-            alt="Profile"
-            className="rounded-full w-32 h-32 object-cover shadow-lg mb-96"
-          />
-        </div>
-      </div>
+        <TabsContent value="projects"></TabsContent>
+      </Tabs>
     </div>
   );
 };
-
-export default DashBoard;
+export default SidebarDemo;

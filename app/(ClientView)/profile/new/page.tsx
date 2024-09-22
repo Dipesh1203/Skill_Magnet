@@ -76,7 +76,7 @@ const CreateProfile = () => {
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto mt-10 bg-gradient-to-r from-bg-black to-customBack_primary_1 rounded-lg shadow-lg">
+    <div className="p-8 max-w-4xl mx-auto mt-10 bg-gradient-to-r from-gray-900 to-black rounded-lg shadow-lg">
       <h1 className="text-white text-4xl font-bold mb-6">Create a Profile</h1>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       {loading && <p className="text-white mb-4">Loading...</p>}
