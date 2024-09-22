@@ -1,113 +1,277 @@
+import React from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+interface TestimonialProfile {
+  name: string;
+  headline: string;
+  intro: string;
+  image: string;
 }
+
+interface UserProfile {
+  _id: string;
+  name: string;
+  userName: string;
+  email: string;
+  image: string;
+  headline: string;
+  intro: string;
+  skills: string[];
+  projects: any[]; // You might want to define a more specific type for projects
+}
+
+async function getAllUserProfiles(): Promise<UserProfile[]> {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  const url = new URL("/api/profile/all", apiUrl);
+
+  console.log(`Fetching all profiles from: ${url.toString()}`);
+
+  try {
+    const res = await fetch(url.toString(), {
+      next: { revalidate: 60 },
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      const errorBody = await res.text();
+      console.error(`HTTP error! status: ${res.status}, body: ${errorBody}`);
+      throw new Error(`Failed to fetch user profiles: ${res.statusText}`);
+    }
+
+    const data = await res.json();
+    console.log("Fetched profiles data:", data);
+    return data;
+  } catch (error) {
+    console.error("Error in getAllUserProfiles:", error);
+    throw error;
+  }
+}
+
+const testimonials: TestimonialProfile[] = [
+  {
+    name: "Jane Doe",
+    headline: "Creative Designer",
+    intro:
+      "Jane is a passionate designer who loves creating visually stunning designs and user experiences.",
+    image: "/images/jane.jpg",
+  },
+  {
+    name: "John Smith",
+    headline: "Full Stack Developer",
+    intro:
+      "John is a versatile developer with expertise in both frontend and backend technologies.",
+    image: "/images/john.jpg",
+  },
+  {
+    name: "Emily Johnson",
+    headline: "Product Manager",
+    intro:
+      "Emily excels in managing product lifecycles and ensuring top-notch user satisfaction.",
+    image: "/images/emily.jpg",
+  },
+];
+
+const Home = async () => {
+  let profiles: UserProfile[];
+
+  try {
+    console.log("Attempting to fetch all user profiles");
+    profiles = await getAllUserProfiles();
+  } catch (error) {
+    console.error("Error in AllUserProfiles component:", error);
+    return (
+      <div className="bg-gradient-to-r from-gray-900 to-black min-h-screen p-8 text-white">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold mb-4">Welcome to Skill Magnet</h1>
+          <p className="text-lg mb-6">
+            Discover and showcase your skills like never before. Create your
+            dynamic portfolio and connect with industry professionals.
+          </p>
+          <Link href="/api/auth/signin">
+            <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg">
+              Sign In to Get Started
+            </Button>
+          </Link>
+        </div>
+
+        <section className="my-12">
+          <h2 className="text-4xl font-semibold mb-8 text-center">
+            What Our Users Say
+          </h2>
+          <div className="flex flex-wrap justify-center gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className="bg-gray-800 text-gray-200 rounded-lg shadow-lg p-6 max-w-sm w-full"
+              >
+                <div className="flex items-center mb-4">
+                  <div className="w-16 h-16 bg-gray-600 rounded-full overflow-hidden">
+                    <Image
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      width={64}
+                      height={64}
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-xl font-bold">{testimonial.name}</h3>
+                    <p className="text-gray-400">{testimonial.headline}</p>
+                  </div>
+                </div>
+                <p className="text-gray-300">{testimonial.intro}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="text-center mt-12">
+          <h2 className="text-4xl font-semibold mb-6">
+            Ready to Showcase Your Skills?
+          </h2>
+          <p className="text-lg mb-6">
+            After signing in, create your profile to start sharing your
+            achievements and projects. Let the world see what you can do!
+          </p>
+          <Link href="/profile/new">
+            <Button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg">
+              Create Your Profile
+            </Button>
+          </Link>
+        </section>
+      </div>
+    );
+  }
+  if (!profiles || profiles.length === 0) {
+    return (
+      <div className="bg-gradient-to-r from-gray-900 to-black min-h-screen p-8 text-white">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold mb-4">Welcome to Skill Magnet</h1>
+          <p className="text-lg mb-6">
+            Discover and showcase your skills like never before. Create your
+            dynamic portfolio and connect with industry professionals.
+          </p>
+          <Link href="/api/auth/signin">
+            <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg">
+              Sign In to Get Started
+            </Button>
+          </Link>
+        </div>
+
+        <section className="my-12">
+          <h2 className="text-4xl font-semibold mb-8 text-center">
+            What Our Users Say
+          </h2>
+          <div className="flex flex-wrap justify-center gap-8">
+            {testimonials.map((testimonial, index) => (
+              <div
+                key={index}
+                className="bg-gray-800 text-gray-200 rounded-lg shadow-lg p-6 max-w-sm w-full"
+              >
+                <div className="flex items-center mb-4">
+                  <div className="w-16 h-16 bg-gray-600 rounded-full overflow-hidden">
+                    <Image
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      width={64}
+                      height={64}
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-xl font-bold">{testimonial.name}</h3>
+                    <p className="text-gray-400">{testimonial.headline}</p>
+                  </div>
+                </div>
+                <p className="text-gray-300">{testimonial.intro}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section className="text-center mt-12">
+          <h2 className="text-4xl font-semibold mb-6">
+            Ready to Showcase Your Skills?
+          </h2>
+          <p className="text-lg mb-6">
+            After signing in, create your profile to start sharing your
+            achievements and projects. Let the world see what you can do!
+          </p>
+          <Link href="/profile/new">
+            <Button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg">
+              Create Your Profile
+            </Button>
+          </Link>
+        </section>
+      </div>
+    );
+  }
+  return (
+    <div className="bg-gradient-to-r from-gray-900 to-black min-h-screen p-8 text-white">
+      <div className="text-center mb-12">
+        <h1 className="text-5xl font-bold mb-4">Welcome to Skill Magnet</h1>
+        <p className="text-lg mb-6">
+          Discover and showcase your skills like never before. Create your
+          dynamic portfolio and connect with industry professionals.
+        </p>
+        <Link href="/api/auth/signin">
+          <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg">
+            Sign In to Get Started
+          </Button>
+        </Link>
+      </div>
+
+      <section className="my-12">
+        <h2 className="text-4xl font-semibold mb-8 text-center">
+          What Our Users Say
+        </h2>
+        <div className="flex flex-wrap justify-center gap-8">
+          {profiles.map((testimonial, index) => (
+            <div
+              key={index}
+              className="bg-gray-800 text-gray-200 rounded-lg shadow-lg p-6 max-w-sm w-full"
+            >
+              <div className="flex items-center mb-4">
+                <div className="w-16 h-16 bg-gray-600 rounded-full overflow-hidden">
+                  <Image
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    width={64}
+                    height={64}
+                    className="object-cover"
+                  />
+                </div>
+                <div className="ml-4">
+                  <h3 className="text-xl font-bold">{testimonial.name}</h3>
+                  <p className="text-gray-400">{testimonial.headline}</p>
+                </div>
+              </div>
+              <p className="text-gray-300">{testimonial.intro}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="text-center mt-12">
+        <h2 className="text-4xl font-semibold mb-6">
+          Ready to Showcase Your Skills?
+        </h2>
+        <p className="text-lg mb-6">
+          After signing in, create your profile to start sharing your
+          achievements and projects. Let the world see what you can do!
+        </p>
+        <Link href="/profile/new">
+          <Button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg">
+            Create Your Profile
+          </Button>
+        </Link>
+      </section>
+    </div>
+  );
+};
+
+export default Home;

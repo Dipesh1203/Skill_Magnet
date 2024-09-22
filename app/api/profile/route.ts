@@ -15,12 +15,9 @@ export async function POST(request: NextRequest) {
   try {
     // Parse request body
     const body = await request.json();
-    console.log(body);
 
     // Connect to database
     await dbConnect();
-    console.log("===============");
-    console.log("===============", body);
 
     // Check if the user (owner) exists
     const user: IUser | null = await User.findOne({
@@ -33,9 +30,6 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
-    console.log("=================");
-    console.log(profile);
-    console.log("=================");
 
     if (profile.length > 0) {
       return NextResponse.json(
@@ -63,11 +57,8 @@ export async function POST(request: NextRequest) {
 }
 export async function PUT(request: NextRequest) {
   try {
-    console.log("==================================");
-
     // Parse request body
     const body = await request.json();
-    console.log(body);
 
     // Validate request data
     const validation = schema.safeParse(body);
