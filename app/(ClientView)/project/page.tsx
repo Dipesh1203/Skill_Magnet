@@ -2,15 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import defaultProjectImage from "./../../../public/assets/projects/project.png";
-import Image from "next/image";
 import ProjectCard from "@/app/components/Project/Project";
-import {
-  CardBody,
-  CardContainer,
-  CardItem,
-} from "./../../../components/ui/3d-card";
+import { IProject } from "@/app/models/projects.model";
 
 interface Project {
   _id: string;
@@ -27,7 +20,7 @@ interface Project {
 
 const ProjectsPage = () => {
   const { data: session, status } = useSession();
-  const [projects, setProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<IProject[]>([]);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
