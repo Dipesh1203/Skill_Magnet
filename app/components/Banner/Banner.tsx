@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import imagep from "../../../public/assets/hero/heroImage.png";
 import { toast } from "@/hooks/use-toast";
 import { PinContainer, PinPerspective } from "@/components/ui/3d-pin";
 import { TypewriterEffectSmooth } from "@/components/ui/typewriter-effect";
@@ -47,7 +46,7 @@ const Banner = (props: any) => {
       </div>
 
       <Image
-        src={userDetails.image.startsWith("https") ? userDetails.image : imagep}
+        src={userDetails.image || "/public/assets/hero/heroImage.png"}
         alt="Profile Image"
         width={400}
         height={500}

@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useSession, signOut } from "next-auth/react";
+import { useSession, signOut, signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 
 const CreateProfile = () => {
@@ -21,9 +21,16 @@ const CreateProfile = () => {
 
   if (!session) {
     return (
-      <div className="flex flex-col p-5">
-        <p>You need to sign in to create a profile.</p>
-        <button onClick={() => signOut()}>Sign Out</button>
+      <div className="flex flex-col items-center justify-center p-8 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md max-w-md mx-auto text-center transition duration-300">
+        <p className="text-lg font-semibold text-gray-700 dark:text-gray-200 mb-4">
+          Please sign in to create your profile.
+        </p>
+        <button
+          onClick={() => signIn()}
+          className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition duration-300 ease-in-out"
+        >
+          Sign In
+        </button>
       </div>
     );
   }
@@ -74,6 +81,7 @@ const CreateProfile = () => {
       setLoading(false);
     }
   };
+  console.log(session);
 
   return (
     <div className="p-8 max-w-4xl mx-auto mt-10 bg-gradient-to-r from-gray-900 to-black rounded-lg shadow-lg">

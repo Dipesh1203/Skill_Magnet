@@ -86,10 +86,6 @@ export const authOptions: NextAuthOptions = {
             throw new Error("No user found with this email or username");
           }
 
-          if (!user.isVerified) {
-            throw new Error("Please verify your account");
-          }
-
           if (!user.password) {
             throw new Error("Invalid login method");
           }
