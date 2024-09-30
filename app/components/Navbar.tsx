@@ -52,7 +52,9 @@ const Navigation = () => {
             {session ? (
               <div className="flex items-center space-x-4">
                 <Image
-                  src={session?.user?.image || `${profileImage}`} // Fallback to default image if session.user.image is undefined
+                  src={
+                    session?.user?.image || `/public/assets/hero/heroImage.png`
+                  } // Fallback to default image if session.user.image is undefined
                   alt="User profile image"
                   width={40}
                   height={40}
