@@ -236,14 +236,12 @@ const Home = async () => {
               className="bg-gray-800 text-gray-200 rounded-lg shadow-lg p-6 max-w-sm w-full"
             >
               <div className="flex items-center mb-4">
-                <div className="w-16 h-16 bg-gray-600 rounded-full overflow-hidden">
-                  <Image
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    width={64}
-                    height={64}
-                    className="object-cover"
-                  />
+                <div className="w-25 h-25 bg-gray-600 rounded-full overflow-hidden">
+                  {testimonial.image ? (
+                    <img src={testimonial.image} alt="" />
+                  ) : (
+                    <img src="/public/assets/profileicon.jpg" alt="" />
+                  )}
                 </div>
                 <div className="ml-4">
                   <h3 className="text-xl font-bold">{testimonial.name}</h3>

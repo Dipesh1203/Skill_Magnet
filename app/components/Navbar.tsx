@@ -1,16 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
-import profileImage from "./../../public/assets/hero/heroImage.png";
-import { MenuIcon, XIcon } from "lucide-react"; // Replace with your icons or use another library
+import profileImage from "/public/assets/hero/heroImage.png";
+import { MenuIcon, XIcon, SunIcon, MoonIcon } from "lucide-react"; // Replace with your icons or use another library
 
 const Navigation = () => {
   const { data: session } = useSession();
   const pathname = usePathname();
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const items = [
     { href: "/", label: "Home" },
@@ -19,13 +20,35 @@ const Navigation = () => {
     { href: "/profile", label: "Profile" },
   ];
 
+  useEffect(() => {
+    // Load the theme from localStorage
+    const storedTheme = localStorage.getItem("theme");
+    if (storedTheme === "dark") {
+      setIsDarkMode(true);
+      document.documentElement.classList.add("dark");
+    } else {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (isDarkMode) {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+    setIsDarkMode(!isDarkMode);
+  };
+
   return (
     <nav className="bg-transparent z-50 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Left section: Logo and Menu for larger screens */}
           <div className="flex-shrink-0">
-            {/* Logo or branding */}
             <h1 className="text-2xl font-extrabold font-outfit">
               Skill Magnet
             </h1>
@@ -47,19 +70,38 @@ const Navigation = () => {
             </ul>
           </div>
 
-          {/* Right section: Profile or Sign in */}
-          <div className="hidden md:flex items-center">
+          {/* Right section: Profile, Theme Switch, or Sign in */}
+          <div className="hidden md:flex items-center space-x-4">
+            <button
+              onClick={toggleTheme}
+              className="focus:outline-none p-2 rounded-lg"
+            >
+              {isDarkMode ? (
+                <SunIcon className="h-6 w-6 text-yellow-500" />
+              ) : (
+                <MoonIcon className="h-6 w-6 text-gray-900" />
+              )}
+            </button>
+
             {session ? (
               <div className="flex items-center space-x-4">
-                <Image
-                  src={
-                    session?.user?.image || `/public/assets/hero/heroImage.png`
-                  } // Fallback to default image if session.user.image is undefined
-                  alt="User profile image"
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                />
+                {session?.user?.image ? (
+                  <Image
+                    src={session?.user?.image}
+                    alt="User profile image"
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
+                ) : (
+                  <Image
+                    src="/assets/hero/heroImage.png"
+                    alt="User"
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
+                )}
                 <button
                   onClick={() => signOut()}
                   className="font-outfit font-bold"
@@ -133,6 +175,21 @@ const Navigation = () => {
                   Sign in
                 </button>
               )}
+            </div>
+
+            {/* Theme switch in mobile menu */}
+            <div className="mt-2 px-4">
+              <button
+                onClick={toggleTheme}
+                className="flex items-center justify-between w-full px-3 py-2 rounded-md text-base font-medium"
+              >
+                <span>Toggle Theme</span>
+                {isDarkMode ? (
+                  <SunIcon className="h-6 w-6 text-yellow-500" />
+                ) : (
+                  <MoonIcon className="h-6 w-6 text-gray-900" />
+                )}
+              </button>
             </div>
           </ul>
         </div>

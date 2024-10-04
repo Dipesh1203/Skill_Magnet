@@ -13,17 +13,15 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    // Parse request body
     const body = await request.json();
 
-    // Connect to database
     await dbConnect();
 
     // Check if the user (owner) exists
     const user: IUser | null = await User.findOne({
       email: body.email,
     }).lean<IUser>();
-    const profile = await Profile.find({ owner: body.owner });
+    const profile = await Profile.findOne({ owner: body.owner });
     if (!user) {
       return NextResponse.json(
         { error: "User not found. Please register first." },
@@ -31,16 +29,18 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (profile.length > 0) {
+    if (profile && profile.length > 0) {
       return NextResponse.json(
-        { error: "profile is already created by thi user" },
-        { status: 404 }
+        { error: "Profile is already created by the user" },
+        { status: 400 } // Use 400 for "Bad Request" instead of 404
       );
     }
+
     const data = {
       ...body,
       owner: user._id,
     };
+    console.log(data);
     // Create a new profile
     const newProfile = new Profile(data);
     await newProfile.save();
@@ -85,6 +85,49 @@ export async function PUT(request: NextRequest) {
     console.log(error);
     return NextResponse.json(
       { error: "An error occurred while processing your request." },
+      { status: 500 }
+    );
+  }
+}
+export async function DELETE(request: NextRequest) {
+  try {
+    // Parse request body to get the email or profile ID
+    const body = await request.json();
+
+    // Connect to the database
+    await dbConnect();
+
+    // Check if the user (owner) exists
+    const user = await User.findOne({
+      email: body.email,
+    }).lean();
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "User not found. Please register first." },
+        { status: 404 }
+      );
+    }
+
+    // Find and delete the profile based on owner ID or profile ID
+    const deletedProfile = await Profile.findOneAndDelete({ owner: user._id });
+
+    if (!deletedProfile) {
+      return NextResponse.json(
+        { error: "Profile not found or already deleted." },
+        { status: 404 }
+      );
+    }
+
+    // Return success response
+    return NextResponse.json(
+      { message: "Profile deleted successfully." },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error deleting profile:", error);
+    return NextResponse.json(
+      { error: "An error occurred while deleting the profile." },
       { status: 500 }
     );
   }

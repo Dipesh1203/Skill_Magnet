@@ -11,6 +11,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      lineClamp: {
+        1: "1",
+        2: "2",
+        3: "3",
+      },
       // Set up custom font family
       fontFamily: {
         outfit: ["Outfit", "sans-serif"],
@@ -94,7 +99,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/line-clamp")],
 };
 
 export default config;

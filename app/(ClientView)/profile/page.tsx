@@ -43,6 +43,7 @@ export default function CurrentUserProfile() {
       }
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+
       const url = new URL(`/api/profile/all`, apiUrl);
 
       try {
@@ -137,7 +138,7 @@ export default function CurrentUserProfile() {
       <Skill data={profile} />
 
       {projects && projects.length > 0 && (
-        <div className="w-4/5 flex flex-col mx-auto my-20 p-10 rounded-lg dark:bg-[#19376D]">
+        <div className="w-4/5 flex flex-col mx-auto my-20 p-10 rounded-lg dark:bg-[#19376D]/30 backdrop-blur-md shadow-lg">
           <h1 className="text-white text-4xl font-bold">Projects</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects?.map((project) => (

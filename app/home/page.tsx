@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
 
 interface TestimonialProfile {
   name: string;
@@ -236,18 +237,31 @@ const Home = async () => {
               className="bg-gray-800 text-gray-200 rounded-lg shadow-lg p-6 max-w-sm w-full"
             >
               <div className="flex items-center mb-4">
-                <div className="w-16 h-16 bg-gray-600 rounded-full overflow-hidden">
-                  <Image
-                    src={testimonial.image}
-                    alt={testimonial.name}
-                    width={64}
-                    height={64}
-                    className="object-cover"
-                  />
+                <div className="w-25 h-25 bg-gray-600 rounded-full overflow-hidden">
+                  {testimonial.image ? (
+                    <Image
+                      src={testimonial.image}
+                      width={50}
+                      height={50}
+                      alt=""
+                    />
+                  ) : (
+                    <Image
+                      src="/assets/profileicon.jpg"
+                      width={50}
+                      height={50}
+                      alt=""
+                    />
+                  )}
                 </div>
+
                 <div className="ml-4">
                   <h3 className="text-xl font-bold">{testimonial.name}</h3>
-                  <p className="text-gray-400">{testimonial.headline}</p>
+                  <p className="text-gray-400">
+                    {testimonial.headline.length > 50
+                      ? `${testimonial.headline.substring(0, 50)}...`
+                      : testimonial.headline}
+                  </p>
                 </div>
               </div>
               <p className="text-gray-300">{testimonial.intro}</p>
