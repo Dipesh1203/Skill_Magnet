@@ -6,6 +6,7 @@ import defaultProjectImage from "./../../../../public/assets/projects/project.pn
 import { IProject } from "@/app/models/projects.model";
 import Link from "next/link";
 import Image from "next/image";
+import ImageCarousel from "@/components/ImageCarousel";
 
 const ViewProject = ({ params }: { params: { id: string } }) => {
   const { data: session, status } = useSession();
@@ -74,7 +75,6 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
   if (error) {
     return <div className="text-red-500 text-center">Error: {error}</div>;
   }
-
   return (
     <div className="p-8 max-w-6xl mx-auto mt-10 bg-gradient-to-r from-bg-black to-customBack_primary_1 rounded-lg shadow-lg">
       <div className="flex justify-between items-center mb-6">
@@ -83,11 +83,17 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
 
       <div className="bg-gray-800 p-6 rounded-lg shadow-md">
         <div className="mb-6">
-          <Image
-            src={defaultProjectImage}
+          {/* <img
+            src={
+              project?.image[0] ||
+              "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            }
+            width="200px"
+            height="100px"
             alt={"Project Image"}
-            className="w-full h-64 object-cover rounded-lg"
-          />
+            className="w-full h-96 object-cover rounded-lg"
+          /> */}
+          <ImageCarousel images={project?.image || []} />
         </div>
         <h2 className="text-white text-3xl font-bold mb-2">{project?.title}</h2>
         <p className="text-gray-300 text-lg mb-4">{project?.description}</p>
@@ -126,12 +132,6 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
         <span className="block text-gray-400 mt-4 text-lg">
           Status: {project?.status}
         </span>
-        <Link
-          href={`/project/edit/${project?._id}`}
-          className="block text-gray-400 mt-4 text-lg"
-        >
-          Edit
-        </Link>
       </div>
     </div>
   );

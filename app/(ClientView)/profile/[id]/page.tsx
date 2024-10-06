@@ -1,13 +1,14 @@
 "use client"; // Ensure this line is at the top
 
 import React, { useEffect, useState } from "react";
-import Banner from "@/app/components/Banner/Banner";
-import Skill from "@/app/components/Skill/Skill";
-import Contact from "@/app/components/Contact/Contact";
+import Banner from "@/components/Banner/Banner";
+import Skill from "@/components/Skill/Skill";
+import Contact from "@/components/Contact/Contact";
 import { IProject } from "@/app/models/projects.model";
-import ProjectCard from "@/app/components/Project/Project";
+import ProjectCard from "@/components/Project/Project";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import ViewProfileProject from "@/components/Project/ViewProfileProject";
 
 interface UserProfile {
   _id: string;
@@ -125,7 +126,7 @@ export default function UserProfile({ params }: { params: { id: string } }) {
       <Banner data={profile} />
       <Skill data={profile} />
 
-      {projects && projects.length > 0 && (
+      {/* {projects && projects.length > 0 && (
         <div className="w-4/5 flex flex-col mx-auto my-20 p-10 rounded-lg dark:bg-[#19376D]">
           <h1 className="text-white text-4xl font-bold">Projects</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -138,8 +139,8 @@ export default function UserProfile({ params }: { params: { id: string } }) {
             ))}
           </div>
         </div>
-      )}
-
+      )} */}
+      <ViewProfileProject project={projects} />
       <Contact data={profile} />
     </>
   );

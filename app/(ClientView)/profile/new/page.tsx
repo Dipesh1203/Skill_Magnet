@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useSession, signOut, signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
+import { CldUploadButton } from "next-cloudinary";
 
 const CreateProfile = () => {
   const { data: session, status } = useSession();
@@ -13,6 +14,7 @@ const CreateProfile = () => {
   const [skillInput, setSkillInput] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string>(""); // Image URL state
   const router = useRouter();
 
   if (status === "loading") {
@@ -46,6 +48,14 @@ const CreateProfile = () => {
     setSkills(skills.filter((_, i) => i !== index));
   };
 
+  const handleImageUpload = (result: any) => {
+    // Handle the successful upload and set the image URL
+    console.log(result); // Inspect the response structure
+    if (result.info && result.info.secure_url) {
+      setImageUrl(result.info.secure_url);
+    }
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
@@ -60,7 +70,7 @@ const CreateProfile = () => {
           name,
           userName: session.user.username,
           email: session.user.email,
-          image: session.user.image,
+          image: imageUrl, // Use uploaded image URL
           headline,
           intro,
           skills,
@@ -81,7 +91,6 @@ const CreateProfile = () => {
       setLoading(false);
     }
   };
-  console.log(session);
 
   return (
     <div className="p-8 max-w-4xl mx-auto mt-10 bg-gradient-to-r from-gray-900 to-black rounded-lg shadow-lg">
@@ -110,6 +119,22 @@ const CreateProfile = () => {
             onChange={(e) => setHeadline(e.target.value)}
             required
           />
+        </div>
+        <div>
+          <label className="block text-gray-400">Profile Image</label>
+          {/* Cloudinary upload button */}
+          <CldUploadButton
+            uploadPreset="skill_magnet_image"
+            onSuccess={handleImageUpload}
+          />
+
+          {imageUrl && (
+            <img
+              src={imageUrl}
+              alt="Uploaded Image"
+              className="mt-4 w-32 h-32 rounded-full"
+            />
+          )}
         </div>
         <div>
           <label className="block text-gray-400">Intro</label>

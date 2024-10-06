@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
+import { CldUploadButton } from "next-cloudinary";
 
 const CreateProject = () => {
   const { data: session } = useSession();
@@ -22,8 +23,11 @@ const CreateProject = () => {
     name: "",
     role: "",
   });
+  const [image, setImageUrls] = useState<string[]>([]);
+  const [imageUploading, setImageUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState<string | null>(null);
   const router = useRouter();
 
   const handleTechnologyAdd = () => {
@@ -31,6 +35,10 @@ const CreateProject = () => {
       setTechnologies([...technologies, technologyInput.trim()]);
       setTechnologyInput("");
     }
+  };
+
+  const handleTechnologyRemove = (index: number) => {
+    setTechnologies(technologies.filter((_, i) => i !== index));
   };
 
   const handleContributorAdd = () => {
@@ -43,9 +51,22 @@ const CreateProject = () => {
     }
   };
 
+  const handleContributorRemove = (index: number) => {
+    setContributors(contributors.filter((_, i) => i !== index));
+  };
+
+  const handleImageUpload = (result: any) => {
+    if (result.info && result.info.secure_url) {
+      setImageUrls((prevUrls) => [...prevUrls, result.info.secure_url]);
+    }
+    setImageUploading(false); // Set to false once the upload is complete
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
+    setError(null);
+    setSuccess(null);
 
     try {
       const response = await fetch("/api/projects", {
@@ -59,6 +80,7 @@ const CreateProject = () => {
           technologies,
           duration: { startDate, endDate },
           status,
+          image,
           liveLink,
           repoLink,
           contributors,
@@ -73,6 +95,19 @@ const CreateProject = () => {
       }
 
       const newProject = await response.json();
+      setSuccess("Project created successfully!");
+
+      // Clear form after successful submission
+      setTitle("");
+      setDescription("");
+      setTechnologies([]);
+      setImageUrls([]);
+      setContributors([]);
+      setStartDate("");
+      setEndDate("");
+      setLiveLink("");
+      setRepoLink("");
+
       router.push(`/project/${newProject._id}`);
     } catch (error) {
       setError("An error occurred while creating the project.");
@@ -85,6 +120,7 @@ const CreateProject = () => {
     <div className="p-8 max-w-4xl mx-auto mt-10 bg-gradient-to-r from-bg-black to-customBack_primary_1 rounded-lg shadow-lg">
       <h1 className="text-white text-4xl font-bold mb-6">Create a Project</h1>
       {error && <p className="text-red-500 mb-4">{error}</p>}
+      {success && <p className="text-green-500 mb-4">{success}</p>}
       {loading && <p className="text-white mb-4">Loading...</p>}
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
@@ -105,6 +141,27 @@ const CreateProject = () => {
             onChange={(e) => setDescription(e.target.value)}
             required
           />
+        </div>
+        <div className="px-8 py-4 rounded-md bg-teal-900 border-dashed border-2 border-sky-500 dark:bg-teal-800 dark:border-sky-400">
+          <label className="block text-gray-300 dark:text-gray-200 text-lg font-semibold mb-2">
+            Update Project Images
+          </label>
+          <CldUploadButton
+            uploadPreset="skill_magnet_image"
+            className="px-6 py-2 rounded-md bg-teal-600 text-white font-bold transition duration-200 hover:bg-teal-500 hover:text-white dark:bg-teal-500 dark:hover:bg-teal-400"
+            onSuccess={handleImageUpload}
+          />
+
+          <div className="flex flex-wrap mt-4">
+            {image.map((url, index) => (
+              <img
+                key={index}
+                src={url}
+                alt={`Uploaded Image ${index + 1}`}
+                className="m-4 w-32 h-32 rounded-full border-2 border-gray-300 dark:border-gray-700"
+              />
+            ))}
+          </div>
         </div>
         <div>
           <label className="block text-gray-400">Technologies</label>
@@ -130,6 +187,13 @@ const CreateProject = () => {
                 className="bg-[#576bbcd6] text-white px-3 py-1 rounded-full flex items-center space-x-2"
               >
                 <span>{tech}</span>
+                <button
+                  type="button"
+                  className="text-red-500 ml-2"
+                  onClick={() => handleTechnologyRemove(index)}
+                >
+                  Remove
+                </button>
               </div>
             ))}
           </div>
@@ -185,34 +249,41 @@ const CreateProject = () => {
           />
         </div>
         <div>
-          <label className="text-white">Contributor Name:</label>
-          <input
-            type="text"
-            name="name"
-            value={contributorInput.name}
-            onChange={(e) =>
-              setContributorInput({ ...contributorInput, name: e.target.value })
-            }
-            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
-          />
-          <label className="text-white">Role:</label>
-          <input
-            type="text"
-            name="role"
-            value={contributorInput.role}
-            onChange={(e) =>
-              setContributorInput({ ...contributorInput, role: e.target.value })
-            }
-            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
-          />
-          <button
-            type="button"
-            onClick={handleContributorAdd}
-            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Add Contributor
-          </button>
-          <div className="flex flex-wrap gap-2 mt-2">
+          <label className="block text-gray-400">Contributors</label>
+          <div className="flex space-x-2 mb-3">
+            <input
+              className="w-1/2 p-3 rounded bg-gray-800 text-white focus:outline-none"
+              type="text"
+              placeholder="Name"
+              value={contributorInput.name}
+              onChange={(e) =>
+                setContributorInput({
+                  ...contributorInput,
+                  name: e.target.value,
+                })
+              }
+            />
+            <input
+              className="w-1/2 p-3 rounded bg-gray-800 text-white focus:outline-none"
+              type="text"
+              placeholder="Role"
+              value={contributorInput.role}
+              onChange={(e) =>
+                setContributorInput({
+                  ...contributorInput,
+                  role: e.target.value,
+                })
+              }
+            />
+            <button
+              type="button"
+              onClick={handleContributorAdd}
+              className="bg-[#576CBC] px-4 py-2 rounded text-white"
+            >
+              Add
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-2">
             {contributors.map((contributor, index) => (
               <div
                 key={index}
@@ -221,17 +292,24 @@ const CreateProject = () => {
                 <span>
                   {contributor.name} - {contributor.role}
                 </span>
+                <button
+                  type="button"
+                  className="text-red-500 ml-2"
+                  onClick={() => handleContributorRemove(index)}
+                >
+                  Remove
+                </button>
               </div>
             ))}
           </div>
         </div>
-        <button
+        <Button
           type="submit"
-          className="w-full bg-[#576CBC] text-white py-3 rounded-lg mt-4"
+          className="w-full p-3 rounded bg-[#576CBC] text-white"
           disabled={loading}
         >
-          Create Project
-        </button>
+          {loading ? "Creating..." : "Create Project"}
+        </Button>
       </form>
     </div>
   );

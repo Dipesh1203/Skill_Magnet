@@ -1,18 +1,13 @@
 import mongoose, { Document, Schema } from "mongoose";
-
-// Define the Project interface
 export interface IProject extends Document {
   _id: string;
   title: string;
   description: string;
   technologies: string[];
-  image: {
-    filename: string;
-    url: string;
-  };
+  image: string[]; // Changed to string[] to match the incoming data
   duration: {
     startDate: Date;
-    endDate?: Date; // Optional
+    endDate?: Date;
   };
   status: "Completed" | "Ongoing" | "In Progress";
   liveLink?: string | null;
@@ -51,8 +46,8 @@ const projectSchema = new Schema<IProject>({
     },
   ],
   image: {
-    filename: String,
-    url: String,
+    type: [String], // This is how you define an array of strings (URLs)
+    required: true,
   },
   duration: {
     startDate: {

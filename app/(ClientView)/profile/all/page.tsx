@@ -53,49 +53,11 @@ async function getAllUserProfiles(): Promise<UserProfile[]> {
     throw error;
   }
 }
-
 function ProfileCard1({ profile }: { profile: UserProfile }) {
-  console.log(profile.image);
-
   return (
     <>
-      {/* <Card className="bg-[#19366d9f] border-0 text-slate-50">
-        <CardHeader>
-          {profile.image ? (
-            <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center text-2xl text-gray-600 overflow-hidden">
-              <Image
-                src={
-                  profile.image.startsWith("http")
-                    ? profile.image
-                    : defaultProfileIcon
-                }
-                alt={profile.name}
-                width={96}
-                height={96}
-                className="object-cover"
-              />
-            </div>
-          ) : (
-            <div className="w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center text-2xl text-gray-600">
-              {profile.name.charAt(0)}
-            </div>
-          )}
-          <CardTitle>{profile.name}</CardTitle>
-          <CardDescription className="text-slate-100">
-            @{profile.userName}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <p>{profile.intro}</p>
-        </CardContent>
-        <CardFooter>
-          <Button asChild>
-            <Link href={`/profile/${profile._id}`}>View Profile</Link>
-          </Button>
-        </CardFooter>
-      </Card> */}
       <CardContainer className="inter-var w-[20rem]">
-        <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border  ">
+        <CardBody className="bg-gray-50 relative group/card dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
           <div className="flex items-center justify-center">
             <CardItem translateZ="100" className="w-full mt-1">
               {profile.image ? (
@@ -121,14 +83,14 @@ function ProfileCard1({ profile }: { profile: UserProfile }) {
           </div>
           <CardItem
             translateZ="50"
-            className="text-xl font-bold text-neutral-600 dark:text-white"
+            className="text-xl font-bold text-neutral-600 dark:text-white mt-4"
           >
             {profile.name}
           </CardItem>
           <CardItem
             as="p"
             translateZ="60"
-            className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
+            className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300 line-clamp-2"
           >
             {profile.headline}
           </CardItem>

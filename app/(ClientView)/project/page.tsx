@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import ProjectCard from "@/app/components/Project/Project";
+import ProjectCard from "@/components/Project/Project";
 import { IProject } from "@/app/models/projects.model";
 
 interface Project {

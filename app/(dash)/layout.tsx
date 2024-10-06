@@ -1,5 +1,6 @@
 "use client";
 import { FloatingDock } from "@/components/ui/floating-dock";
+import Navbar from "../../components/Navbar";
 import {
   IconBrandGithub,
   IconBrandX,
@@ -73,5 +74,10 @@ export default function Dash({
       href: "#",
     },
   ];
-  return <>{children}</>;
+  return (
+    <div className="m-0 p-0">
+      <Navbar />
+      {children}
+    </div>
+  );
 }

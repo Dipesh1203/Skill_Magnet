@@ -4,12 +4,13 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import profileImage from "./../../public/assets/hero/heroImage.png";
-import Banner from "../../components/Banner/Banner";
-import Skill from "../../components/Skill/Skill";
-import Contact from "../../components/Contact/Contact";
+import Banner from "../../../components/Banner/Banner";
+import Skill from "../../../components/Skill/Skill";
+import Contact from "../../../components/Contact/Contact";
+import ViewProfileProject from "../../../components/Project/ViewProfileProject";
 import { LampContainer } from "@/components/ui/lamp";
 import * as motion from "framer-motion/client";
-import ProjectCard from "@/app/components/Project/Project";
+import ProjectCard from "@/components/Project/Project";
 import { IProject } from "@/app/models/projects.model";
 import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
@@ -43,6 +44,7 @@ export default function CurrentUserProfile() {
       }
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+
       const url = new URL(`/api/profile/all`, apiUrl);
 
       try {
@@ -135,9 +137,9 @@ export default function CurrentUserProfile() {
     <>
       <Banner data={profile} />
       <Skill data={profile} />
-
+      {/* 
       {projects && projects.length > 0 && (
-        <div className="w-4/5 flex flex-col mx-auto my-20 p-10 rounded-lg dark:bg-[#19376D]">
+        <div className="w-4/5 flex flex-col mx-auto my-20 p-10 rounded-lg dark:bg-[#19376D]/30 backdrop-blur-md shadow-lg">
           <h1 className="text-white text-4xl font-bold">Projects</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects?.map((project) => (
@@ -149,8 +151,8 @@ export default function CurrentUserProfile() {
             ))}
           </div>
         </div>
-      )}
-
+      )} */}
+      <ViewProfileProject project={projects} />
       <Contact data={profile} />
     </>
   );

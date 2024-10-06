@@ -32,12 +32,13 @@ export default function EditProject() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
-
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
   // Fetch the project data on page load
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const res = await fetch(`/api/project/${id}`);
+        const url = new URL(`/api/projects/${id}`, apiUrl);
+        const res = await fetch(url.toString());
         if (!res.ok) throw new Error("Failed to fetch project");
         const project = await res.json();
         setTitle(project.title);
@@ -71,7 +72,8 @@ export default function EditProject() {
     setLoading(true);
 
     try {
-      const res = await fetch(`/api/project/${id}`, {
+      const url = new URL(`/api/projects/${id}`, apiUrl);
+      const res = await fetch(url.toString(), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
