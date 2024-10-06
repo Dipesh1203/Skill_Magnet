@@ -50,8 +50,8 @@ const Banner = (props: any) => {
         src={userDetails.image || "/assets/hero/heroImage.png"}
         alt="Profile Image"
         width={300}
-        height={400}
-        className="rounded-full lg:w-1/2 z-10 animate-floating object-cover h-auto lg:h-[400px] lg:w-auto"
+        height={300}
+        className="rounded-full lg:w-1/2 z-10 animate-floating object-cover h-auto lg:h-[400px] lg:w-[400px]"
       />
     </section>
   );

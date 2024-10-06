@@ -24,7 +24,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     console.log(body);
     const { userId, ...data } = body;
-
+    console.log(typeof data.image); // should log 'object'
+    console.log(Array.isArray(data.image));
     // Connect to database
     await dbConnect();
 
@@ -58,21 +59,22 @@ export async function POST(request: NextRequest) {
       ...data,
       ownerProfile: profile._id,
     };
+    console.log("Incoming project data:", projectData);
+    console.log("Project image field type:", typeof projectData.image);
+    console.log("Is image an array?", Array.isArray(projectData.image));
 
-    // Create and save a new project
-    const newProject = new Project(projectData);
+    const newProject = new Project({
+      ...projectData,
+    });
     await newProject.save();
     console.log("New Project Created:", newProject);
 
-    // Ensure profile.project is an array
     const currentProjects = Array.isArray(profile.projects)
       ? profile.projects
       : [];
 
-    // Add the new project ID to the array
     const updatedProjects = [...currentProjects, newProject._id];
 
-    // Update the Profile document
     const update = await Profile.updateOne(
       { _id: profile._id },
       { $set: { projects: updatedProjects } }

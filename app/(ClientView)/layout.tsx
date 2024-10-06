@@ -1,4 +1,4 @@
-import Navbar from "./../components/Navbar";
+import Navbar from "../../components/Navbar";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import {
   IconBrandGithub,

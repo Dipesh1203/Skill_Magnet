@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
+import { CldUploadButton } from "next-cloudinary";
 
 interface UserProfile {
   _id: string;
@@ -40,6 +41,7 @@ const DashBoard = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [newProject, setNewProject] = useState<Project | null>(null); // For project form
   const [editingProjectId, setEditingProjectId] = useState<string | null>(null); // To track the project being edited
+  const [imageUrl, setImageUrl] = useState<string>(""); // Image URL state
 
   useEffect(() => {
     async function fetchProfile() {
@@ -142,6 +144,13 @@ const DashBoard = () => {
   const handleSkillRemove = (index: number) => {
     setSkills(skills.filter((_, i) => i !== index));
   };
+  const handleImageUpload = (result: any) => {
+    // Handle the successful upload and set the image URL
+    console.log(result); // Inspect the response structure
+    if (result.info && result.info.secure_url) {
+      setImageUrl(result.info.secure_url);
+    }
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -156,6 +165,7 @@ const DashBoard = () => {
         body: JSON.stringify({
           name,
           headline,
+          image: imageUrl, // Use uploaded image URL
           intro,
           skills,
         }),
@@ -236,6 +246,26 @@ const DashBoard = () => {
                 {profile?.name}
               </h2>
               <p className="text-gray-400">{profile?.headline}</p>
+              <div className="px-8 py-4 rounded-md bg-teal-900 border-dashed border-2 border-sky-500 dark:bg-teal-800 dark:border-sky-400">
+                <label className="block text-gray-300 dark:text-gray-200 text-lg font-semibold mb-2">
+                  Update Profile Image
+                </label>
+                {/* Cloudinary upload button */}
+                <CldUploadButton
+                  uploadPreset="skill_magnet_image"
+                  className="px-6 py-2 rounded-md bg-teal-600 text-white font-bold transition duration-200 hover:bg-teal-500 hover:text-white dark:bg-teal-500 dark:hover:bg-teal-400"
+                  onSuccess={handleImageUpload}
+                />
+
+                {imageUrl && (
+                  <img
+                    src={imageUrl}
+                    alt="Uploaded Image"
+                    className="m-4 w-32 h-32 rounded-full border-2 border-gray-300 dark:border-gray-700"
+                  />
+                )}
+              </div>
+
               <div className="mt-4">
                 <button
                   className="bg-red-600 text-white px-4 py-2 rounded-lg"

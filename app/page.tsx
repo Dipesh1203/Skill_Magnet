@@ -230,27 +230,28 @@ const Home = async () => {
           What Our Users Say
         </h2>
         <div className="flex flex-wrap justify-center gap-8">
-          {profiles.map((testimonial, index) => (
-            <div
-              key={index}
-              className="bg-gray-800 text-gray-200 rounded-lg shadow-lg p-6 max-w-sm w-full"
-            >
-              <div className="flex items-center mb-4">
-                <div className="w-25 h-25 bg-gray-600 rounded-full overflow-hidden">
-                  {testimonial.image ? (
-                    <img src={testimonial.image} alt="" />
-                  ) : (
-                    <img src="/public/assets/profileicon.jpg" alt="" />
-                  )}
+          {profiles &&
+            profiles.map((testimonial, index) => (
+              <div
+                key={index}
+                className="bg-gray-800 text-gray-200 rounded-lg shadow-lg p-6 max-w-sm w-full"
+              >
+                <div className="flex items-center mb-4">
+                  <div className="w-25 h-25 bg-gray-600 rounded-full overflow-hidden">
+                    {testimonial.image ? (
+                      <img src={testimonial.image} alt="" />
+                    ) : (
+                      <img src="/public/assets/profileicon.jpg" alt="" />
+                    )}
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-xl font-bold">{testimonial.name}</h3>
+                    <p className="text-gray-400">{testimonial.headline}</p>
+                  </div>
                 </div>
-                <div className="ml-4">
-                  <h3 className="text-xl font-bold">{testimonial.name}</h3>
-                  <p className="text-gray-400">{testimonial.headline}</p>
-                </div>
+                <p className="text-gray-300">{testimonial.intro}</p>
               </div>
-              <p className="text-gray-300">{testimonial.intro}</p>
-            </div>
-          ))}
+            ))}
         </div>
       </section>
 
