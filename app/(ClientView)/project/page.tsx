@@ -27,10 +27,10 @@ const ProjectsPage = () => {
   useEffect(() => {
     async function fetchProjects() {
       if (status === "loading") return;
-      if (!session?.user) {
-        router.push("/api/auth/signin");
-        return;
-      }
+      // if (!session?.user) {
+      //   router.push("/api/auth/signin");
+      //   return;
+      // }
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
       const url = new URL(`/api/projects/`, apiUrl);
@@ -67,19 +67,21 @@ const ProjectsPage = () => {
     return <p>Loading...</p>;
   }
 
-  if (!session) {
-    return (
-      <div className="flex flex-col p-5">
-        <p>You need to sign in to view projects.</p>
-        <button onClick={() => signOut()}>Sign Out</button>
-      </div>
-    );
-  }
+  // if (!session) {
+  //   return (
+  //     <div className="flex flex-col p-5">
+  //       <p>You need to sign in to view projects.</p>
+  //       <button onClick={() => signOut()}>Sign Out</button>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="p-8 max-w-6xl mx-auto mt-10 bg-gradient-to-r from-bg-black to-customBack_primary_1 rounded-lg shadow-lg">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-white text-4xl font-bold">Projects</h1>
+      <div className="flex justify-between items-center mb-1">
+        <h1 className="dark:text-white text-black text-4xl font-bold">
+          Projects
+        </h1>
       </div>
 
       {error ? (

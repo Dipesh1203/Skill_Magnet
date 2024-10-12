@@ -74,10 +74,5 @@ export default function Dash({
       href: "#",
     },
   ];
-  return (
-    <div className="m-0 p-0">
-      <Navbar />
-      {children}
-    </div>
-  );
+  return <div className="m-0 p-0">{children}</div>;
 }

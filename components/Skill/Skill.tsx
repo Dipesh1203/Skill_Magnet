@@ -27,7 +27,7 @@ const Skill: React.FC<SkillProps> = ({ data }) => {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-blue-600 dark:from-blue-700 dark:to-blue-900 rounded-lg" />
                 <div className="flex flex-col items-center justify-center px-4 py-4 bg-slate-100 dark:bg-slate-800 border border-transparent rounded-lg relative transition duration-300 hover:bg-transparent hover:border-blue-500 dark:hover:border-blue-300">
-                  <span className="text-xl font-semibold text-slate-900 dark:text-white">
+                  <span className="text-xl font-semibold text-slate-900 hover:text-white  dark:text-white">
                     {skill}
                   </span>
                 </div>

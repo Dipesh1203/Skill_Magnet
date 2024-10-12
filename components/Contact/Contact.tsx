@@ -36,7 +36,7 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
 
   return (
     <footer id="contact" className="py-10">
-      <div className="flex flex-col overflow-hidden">
+      <div className="flex flex-col overflow-hidden mx-auto w-[70%]">
         <ContainerScroll
           titleComponent={
             <h1 className="text-4xl font-semibold text-black dark:text-white">
@@ -57,21 +57,21 @@ const Contact: React.FC<ContactProps> = ({ data }) => {
               </button>
             </div>
           </PinContainer>
-          <ul className="mt-4 space-y-2">
+          <ul className="mt-4 space-y-1">
             <li className="flex items-center">
               <Image src={emailIcon} alt="Email icon" />
               <a href={`mailto:${userDetails?.email}`} className="ml-2">
                 {userDetails?.email}
               </a>
             </li>
-            <li className="flex items-center">
+            {/* <li className="flex items-center">
               <Image src={linkedinIcon} alt="LinkedIn icon" />
-              {/* <a href={linkedin}>{linkedin}</a> */}
+              <a href={linkedin}>{linkedin}</a>
             </li>
             <li className="flex items-center">
               <Image src={githubIcon} alt="Github icon" />
-              {/* <a href={github}>{github}</a> */}
-            </li>
+              <a href={github}>{github}</a>
+            </li> */}
           </ul>
         </ContainerScroll>
       </div>

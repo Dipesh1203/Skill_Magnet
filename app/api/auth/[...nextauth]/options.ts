@@ -115,7 +115,6 @@ export const authOptions: NextAuthOptions = {
         user.isAcceptingMessages = dbUser.isAcceptingMessages;
         user.username = dbUser.username;
       }
-      console.log(credentials);
 
       return true;
     },

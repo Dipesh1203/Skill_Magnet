@@ -28,7 +28,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({
 }) => {
   return (
     <CardContainer className="inter-var ">
-      <CardBody className="bg-white/70 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-[#1F2F46]/70 dark:border-[#19376D]/20 border-black/[0.1] w-auto sm:w-[22rem] h-auto rounded-xl p-6 border ">
+      <CardBody className="bg-slate-100 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-[#1F2F46]/70 dark:border-[#19376D]/20 border-black/[0.1] w-auto sm:w-[22rem] h-auto rounded-xl p-6 border ">
         <CardItem
           translateZ="50"
           className="text-xl font-bold text-neutral-600 dark:text-white"
