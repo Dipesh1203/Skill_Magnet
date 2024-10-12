@@ -57,7 +57,7 @@ function ProfileCard1({ profile }: { profile: UserProfile }) {
   return (
     <>
       <CardContainer className="inter-var w-[20rem]">
-        <CardBody className="bg-gray-50 relative group/card dark:bg-black dark:border-white/[0.2] border-black/[0.1] w-auto sm:w-[30rem] h-auto rounded-xl p-6 border">
+        <CardBody className="bg-slate-100 relative group/card dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-[#1F2F46]/70 dark:border-[#19376D]/20 border-black/[0.1] w-auto sm:w-[22rem] h-auto rounded-xl p-6 border ">
           <div className="flex items-center justify-center">
             <CardItem translateZ="100" className="w-full mt-1">
               {profile.image ? (
@@ -142,9 +142,9 @@ export default async function AllUserProfiles() {
   }
 
   return (
-    <div className="bg-[#0b24478c] max-w-6xl mx-auto p-8 rounded-md">
-      <h1 className="text-3xl font-bold mb-3 text-slate-50">
-        All User Profiles
+    <div className="dark:bg-[#0b24478c] bg-slate-100  max-w-6xl mx-auto p-8 rounded-md">
+      <h1 className="text-3xl font-bold  dark:text-slate-50 text-slate-6  700">
+        Browse professionals
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {profiles.map((profile) => (

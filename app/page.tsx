@@ -79,196 +79,86 @@ const Home = async () => {
   let profiles: UserProfile[];
 
   try {
-    console.log("Attempting to fetch all user profiles");
     profiles = await getAllUserProfiles();
   } catch (error) {
     console.error("Error in AllUserProfiles component:", error);
-    return (
-      <div className="bg-gradient-to-r from-gray-900 to-black min-h-screen p-8 text-white">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4">Welcome to Skill Magnet</h1>
-          <p className="text-lg mb-6">
-            Discover and showcase your skills like never before. Create your
-            dynamic portfolio and connect with industry professionals.
-          </p>
-          <Link href="/api/auth/signin">
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg">
-              Sign In to Get Started
-            </Button>
-          </Link>
-        </div>
-
-        <section className="my-12">
-          <h2 className="text-4xl font-semibold mb-8 text-center">
-            What Our Users Say
-          </h2>
-          <div className="flex flex-wrap justify-center gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className="bg-gray-800 text-gray-200 rounded-lg shadow-lg p-6 max-w-sm w-full"
-              >
-                <div className="flex items-center mb-4">
-                  <div className="w-16 h-16 bg-gray-600 rounded-full overflow-hidden">
-                    <Image
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      width={64}
-                      height={64}
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="ml-4">
-                    <h3 className="text-xl font-bold">{testimonial.name}</h3>
-                    <p className="text-gray-400">{testimonial.headline}</p>
-                  </div>
-                </div>
-                <p className="text-gray-300">{testimonial.intro}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="text-center mt-12">
-          <h2 className="text-4xl font-semibold mb-6">
-            Ready to Showcase Your Skills?
-          </h2>
-          <p className="text-lg mb-6">
-            After signing in, create your profile to start sharing your
-            achievements and projects. Let the world see what you can do!
-          </p>
-          <Link href="/profile/new">
-            <Button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg">
-              Create Your Profile
-            </Button>
-          </Link>
-        </section>
-      </div>
-    );
+    profiles = [];
   }
-  if (!profiles || profiles.length === 0) {
-    return (
-      <div className="bg-gradient-to-r from-gray-900 to-black min-h-screen p-8 text-white">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold mb-4">Welcome to Skill Magnet</h1>
-          <p className="text-lg mb-6">
-            Discover and showcase your skills like never before. Create your
-            dynamic portfolio and connect with industry professionals.
-          </p>
-          <Link href="/api/auth/signin">
-            <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg">
-              Sign In to Get Started
-            </Button>
-          </Link>
-        </div>
 
-        <section className="my-12">
-          <h2 className="text-4xl font-semibold mb-8 text-center">
-            What Our Users Say
-          </h2>
-          <div className="flex flex-wrap justify-center gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={index}
-                className="bg-gray-800 text-gray-200 rounded-lg shadow-lg p-6 max-w-sm w-full"
-              >
-                <div className="flex items-center mb-4">
-                  <div className="w-16 h-16 bg-gray-600 rounded-full overflow-hidden">
-                    <Image
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      width={64}
-                      height={64}
-                      className="object-cover"
-                    />
-                  </div>
-                  <div className="ml-4">
-                    <h3 className="text-xl font-bold">{testimonial.name}</h3>
-                    <p className="text-gray-400">{testimonial.headline}</p>
-                  </div>
-                </div>
-                <p className="text-gray-300">{testimonial.intro}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="text-center mt-12">
-          <h2 className="text-4xl font-semibold mb-6">
-            Ready to Showcase Your Skills?
-          </h2>
-          <p className="text-lg mb-6">
-            After signing in, create your profile to start sharing your
-            achievements and projects. Let the world see what you can do!
-          </p>
-          <Link href="/profile/new">
-            <Button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg">
-              Create Your Profile
-            </Button>
-          </Link>
-        </section>
-      </div>
-    );
-  }
   return (
-    <div className="bg-gradient-to-r from-gray-900 to-black min-h-screen p-8 text-white">
-      <div className="text-center mb-12">
-        <h1 className="text-5xl font-bold mb-4">Welcome to Skill Magnet</h1>
-        <p className="text-lg mb-6">
-          Discover and showcase your skills like never before. Create your
-          dynamic portfolio and connect with industry professionals.
-        </p>
-        <Link href="/api/auth/signin">
-          <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg">
-            Sign In to Get Started
-          </Button>
-        </Link>
-      </div>
-
-      <section className="my-12">
-        <h2 className="text-4xl font-semibold mb-8 text-center">
-          What Our Users Say
-        </h2>
-        <div className="flex flex-wrap justify-center gap-8">
-          {profiles &&
-            profiles.map((testimonial, index) => (
-              <div
-                key={index}
-                className="bg-gray-800 text-gray-200 rounded-lg shadow-lg p-6 max-w-sm w-full"
-              >
-                <div className="flex items-center mb-4">
-                  <div className="w-25 h-25 bg-gray-600 rounded-full overflow-hidden">
-                    {testimonial.image ? (
-                      <img src={testimonial.image} alt="" />
-                    ) : (
-                      <img src="/public/assets/profileicon.jpg" alt="" />
-                    )}
-                  </div>
-                  <div className="ml-4">
-                    <h3 className="text-xl font-bold">{testimonial.name}</h3>
-                    <p className="text-gray-400">{testimonial.headline}</p>
-                  </div>
-                </div>
-                <p className="text-gray-300">{testimonial.intro}</p>
-              </div>
-            ))}
+    <div className="bg-white dark:bg-gray-900 min-h-screen text-gray-900 dark:text-white transition-colors duration-300">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="text-center mb-16">
+          <h1 className="text-4xl sm:text-5xl font-bold mb-6">
+            Welcome to Skill Magnet
+          </h1>
+          <p className="text-xl mb-8 text-gray-600 dark:text-gray-300">
+            Discover and showcase your skills like never before. Create your
+            dynamic portfolio and connect with industry professionals.
+          </p>
+          <Link href="/api/auth/signin">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-md transition duration-300 text-lg">
+              Sign In to Get Started
+            </Button>
+          </Link>
         </div>
-      </section>
 
-      <section className="text-center mt-12">
-        <h2 className="text-4xl font-semibold mb-6">
-          Ready to Showcase Your Skills?
-        </h2>
-        <p className="text-lg mb-6">
-          After signing in, create your profile to start sharing your
-          achievements and projects. Let the world see what you can do!
-        </p>
-        <Link href="/profile/new">
-          <Button className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg">
-            Create Your Profile
-          </Button>
-        </Link>
-      </section>
+        <section className="mb-16">
+          <h2 className="text-3xl font-semibold mb-10 text-center">
+            What Our Users Say
+          </h2>
+          <div className="flex flex-wrap justify-center gap-8">
+            {(profiles.length > 0 ? profiles : testimonials).map(
+              (testimonial, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md p-6 transition-colors duration-300"
+                >
+                  <div className="flex items-center mb-4">
+                    <div className="w-16 h-16 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                      <Image
+                        src={
+                          testimonial.image || "/public/assets/profileicon.jpg"
+                        }
+                        alt={testimonial.name}
+                        width={64}
+                        height={64}
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="ml-4">
+                      <h3 className="text-xl font-semibold">
+                        {testimonial.name}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-400">
+                        {testimonial.headline}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    {testimonial.intro}
+                  </p>
+                </div>
+              )
+            )}
+          </div>
+        </section>
+
+        <section className="text-center">
+          <h2 className="text-3xl font-semibold mb-6">
+            Ready to Showcase Your Skills?
+          </h2>
+          <p className="text-xl mb-8 text-gray-600 dark:text-gray-300">
+            After signing in, create your profile to start sharing your
+            achievements and projects. Let the world see what you can do!
+          </p>
+          <Link href="/profile/new">
+            <Button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-md transition duration-300 text-lg">
+              Create Your Profile
+            </Button>
+          </Link>
+        </section>
+      </div>
     </div>
   );
 };

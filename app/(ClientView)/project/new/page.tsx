@@ -117,16 +117,20 @@ const CreateProject = () => {
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto mt-10 bg-gradient-to-r from-bg-black to-customBack_primary_1 rounded-lg shadow-lg">
-      <h1 className="text-white text-4xl font-bold mb-6">Create a Project</h1>
+    <div className="p-8 max-w-4xl mx-auto mt-10 dark:bg-gray-900 bg-white rounded-lg shadow-lg">
+      <h1 className="dark:text-white text-gray-700 text-4xl font-bold mb-6">
+        Create a Project
+      </h1>
       {error && <p className="text-red-500 mb-4">{error}</p>}
       {success && <p className="text-green-500 mb-4">{success}</p>}
-      {loading && <p className="text-white mb-4">Loading...</p>}
+      {loading && <p className="dark:text-white text-black mb-4">Loading...</p>}
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-gray-400">Project Title</label>
+          <label className="block dark:dark:text-gray-400 text-gray-600 text-gray-600">
+            Project Title
+          </label>
           <input
-            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
+            className="w-full p-3 rounded dark:bg-gray-800 bg-slate-200 dark:text-white text-gray-800 focus:outline-none"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
@@ -134,16 +138,18 @@ const CreateProject = () => {
           />
         </div>
         <div>
-          <label className="block text-gray-400">Description</label>
+          <label className="block dark:text-gray-400 text-gray-600">
+            Description
+          </label>
           <textarea
-            className="w-full p-3 h-24 rounded bg-gray-800 text-white focus:outline-none"
+            className="w-full p-3 h-24 rounded dark:bg-gray-800 bg-slate-200 dark:text-white text-gray-800 focus:outline-none"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             required
           />
         </div>
-        <div className="px-8 py-4 rounded-md bg-teal-900 border-dashed border-2 border-sky-500 dark:bg-teal-800 dark:border-sky-400">
-          <label className="block text-gray-300 dark:text-gray-200 text-lg font-semibold mb-2">
+        <div className="px-8 py-4 rounded-md bg-slate-300 border-dashed border-2 border-slate-700 dark:bg-teal-800 dark:border-sky-400">
+          <label className="block text-gray-900 dark:text-gray-200 text-lg font-semibold mb-2">
             Update Project Images
           </label>
           <CldUploadButton
@@ -164,10 +170,12 @@ const CreateProject = () => {
           </div>
         </div>
         <div>
-          <label className="block text-gray-400">Technologies</label>
+          <label className="block dark:text-gray-400 text-gray-600">
+            Technologies
+          </label>
           <div className="flex space-x-2 mb-3">
             <input
-              className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
+              className="w-full p-3 rounded dark:bg-gray-800 bg-slate-200 dark:text-white text-gray-800 focus:outline-none"
               type="text"
               value={technologyInput}
               onChange={(e) => setTechnologyInput(e.target.value)}
@@ -199,9 +207,11 @@ const CreateProject = () => {
           </div>
         </div>
         <div>
-          <label className="block text-gray-400">Start Date</label>
+          <label className="block dark:text-gray-400 text-gray-600">
+            Start Date
+          </label>
           <input
-            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
+            className="w-full p-3 rounded dark:bg-gray-800 bg-slate-200 dark:text-white text-gray-800 focus:outline-none"
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
@@ -209,18 +219,22 @@ const CreateProject = () => {
           />
         </div>
         <div>
-          <label className="block text-gray-400">End Date</label>
+          <label className="block dark:text-gray-400 text-gray-600">
+            End Date
+          </label>
           <input
-            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
+            className="w-full p-3 rounded dark:bg-gray-800 bg-slate-200 dark:text-white text-gray-800 focus:outline-none"
             type="date"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />
         </div>
         <div>
-          <label className="block text-gray-400">Status</label>
+          <label className="block dark:text-gray-400 text-gray-600">
+            Status
+          </label>
           <select
-            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
+            className="w-full p-3 rounded dark:bg-gray-800 bg-slate-200 dark:text-white text-gray-800 focus:outline-none"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
             required
@@ -231,28 +245,34 @@ const CreateProject = () => {
           </select>
         </div>
         <div>
-          <label className="block text-gray-400">Live Link</label>
+          <label className="block dark:text-gray-400 text-gray-600">
+            Live Link
+          </label>
           <input
-            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
+            className="w-full p-3 rounded dark:bg-gray-800 bg-slate-200 dark:text-white text-gray-800 focus:outline-none"
             type="url"
             value={liveLink}
             onChange={(e) => setLiveLink(e.target.value)}
           />
         </div>
         <div>
-          <label className="block text-gray-400">Repository Link</label>
+          <label className="block dark:text-gray-400 text-gray-600">
+            Repository Link
+          </label>
           <input
-            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
+            className="w-full p-3 rounded dark:bg-gray-800 bg-slate-200 dark:text-white text-gray-800 focus:outline-none"
             type="url"
             value={repoLink}
             onChange={(e) => setRepoLink(e.target.value)}
           />
         </div>
         <div>
-          <label className="block text-gray-400">Contributors</label>
+          <label className="block dark:text-gray-400 text-gray-600">
+            Contributors
+          </label>
           <div className="flex space-x-2 mb-3">
             <input
-              className="w-1/2 p-3 rounded bg-gray-800 text-white focus:outline-none"
+              className="w-1/2 p-3 rounded dark:bg-gray-800 bg-slate-200 dark:text-white text-gray-800 focus:outline-none"
               type="text"
               placeholder="Name"
               value={contributorInput.name}
@@ -264,7 +284,7 @@ const CreateProject = () => {
               }
             />
             <input
-              className="w-1/2 p-3 rounded bg-gray-800 text-white focus:outline-none"
+              className="w-1/2 p-3 rounded dark:bg-gray-800 bg-slate-200 dark:text-white text-gray-800 focus:outline-none"
               type="text"
               placeholder="Role"
               value={contributorInput.role}

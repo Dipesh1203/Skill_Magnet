@@ -7,15 +7,18 @@ import { IProject } from "@/app/models/projects.model";
 import Link from "next/link";
 import Image from "next/image";
 import ImageCarousel from "@/components/ImageCarousel";
+import { IProfile } from "@/app/models/profile.model";
 
 const ViewProject = ({ params }: { params: { id: string } }) => {
   const { data: session, status } = useSession();
   const [project, setProject] = useState<IProject | null>(null);
+  const [userProfile, setUserProfile] = useState<IProfile | null>(null);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   // Fetch the project data based on the ID
   useEffect(() => {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
     async function fetchProject() {
       if (status === "loading") return;
       if (!session?.user) {
@@ -23,7 +26,6 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
         return;
       }
 
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
       const url = new URL(`/api/projects/${params.id}`, apiUrl);
 
       try {
@@ -50,8 +52,41 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
         );
       }
     }
-
     fetchProject();
+    async function fetchProfile() {
+      if (status === "loading") return;
+      if (!project?.ownerProfile) {
+        return;
+      }
+      const url = new URL(`/api/profile/${project?.ownerProfile}`, apiUrl);
+      console.log(url);
+      try {
+        const res = await fetch(url.toString(), {
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        console.log(res);
+
+        if (!res.ok) {
+          const errorBody = await res.text();
+          console.error(
+            `HTTP error! status: ${res.status}, body: ${errorBody}`
+          );
+          throw new Error(`Failed to fetch profile: ${res.statusText}`);
+        }
+        const data = await res.json();
+        console.log(data);
+
+        setUserProfile(data);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "An unexpected error occurred"
+        );
+      }
+    }
+    fetchProfile();
   }, [router, session, status, params.id]);
 
   if (status === "loading") {
@@ -75,13 +110,18 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
   if (error) {
     return <div className="text-red-500 text-center">Error: {error}</div>;
   }
+  console.log(project);
+  console.log(userProfile);
+
   return (
     <div className="p-8 max-w-6xl mx-auto mt-10 bg-gradient-to-r from-bg-black to-customBack_primary_1 rounded-lg shadow-lg">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-white text-4xl font-bold">Project Details</h1>
+        <h1 className="dark:text-white text-black text-4xl font-bold">
+          Project Details
+        </h1>
       </div>
 
-      <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+      <div className="dark:bg-gray-800 bg-slate-200 p-6 rounded-lg shadow-md">
         <div className="mb-6">
           {/* <img
             src={
@@ -95,8 +135,22 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
           /> */}
           <ImageCarousel images={project?.image || []} />
         </div>
-        <h2 className="text-white text-3xl font-bold mb-2">{project?.title}</h2>
-        <p className="text-gray-300 text-lg mb-4">{project?.description}</p>
+        <h2 className="dark:text-white text-black text-3xl font-bold mb-2">
+          {project?.title}
+        </h2>
+        <p className="dark:text-gray-300 text-gray-900 text-lg mb-4">
+          {project?.description}
+        </p>
+        {userProfile && (
+          <div className="my-4">
+            <Link
+              href={`/profile/${userProfile?._id}` || `#`}
+              className="dark:bg-blue-900 bg-green-400 text-white px-3 py-3 mx-auto rounded-lg text-sm"
+            >
+              Owner : {userProfile && userProfile?.name}
+            </Link>
+          </div>
+        )}
         <div className="flex flex-wrap gap-2 mb-4">
           {project?.technologies.map((tech, index) => (
             <span
@@ -129,7 +183,7 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
             </Link>
           )}
         </div>
-        <span className="block text-gray-400 mt-4 text-lg">
+        <span className="block dark:text-gray-400 text-gray-700 mt-4 text-lg">
           Status: {project?.status}
         </span>
       </div>

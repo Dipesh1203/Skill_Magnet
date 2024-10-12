@@ -232,22 +232,24 @@ const DashBoard = () => {
   };
 
   return (
-    <div className="m-0 p-0 bg-gray-900 h-[100vh] w-full">
+    <div className="m-0 p-0 dark:bg-gray-900 bg-slate-100 h-[100vh] w-full">
       <div className="max-w-6xl mx-auto  p-8 rounded-lg shadow-lg h-full">
         <div className="flex">
-          <div className="w-1/4 bg-gray-800 p-6 rounded-lg mr-6">
+          <div className="w-1/4 dark:bg-gray-800 bg-slate-200 p-6 rounded-lg mr-6">
             <div className="text-center">
               <img
                 src={profile?.image || "/default-avatar.png"}
                 alt="Profile"
                 className="w-32 h-32 mx-auto rounded-full object-cover mb-4 shadow-lg"
               />
-              <h2 className="text-white text-2xl font-semibold">
+              <h2 className="dark:text-white text-black text-2xl font-semibold">
                 {profile?.name}
               </h2>
-              <p className="text-gray-400">{profile?.headline}</p>
-              <div className="px-8 py-4 rounded-md bg-teal-900 border-dashed border-2 border-sky-500 dark:bg-teal-800 dark:border-sky-400">
-                <label className="block text-gray-300 dark:text-gray-200 text-lg font-semibold mb-2">
+              <p className="dark:dark:text-gray-400 text-gray-900 text-grey-700">
+                {profile?.headline}
+              </p>
+              <div className="px-8 py-4 rounded-md bg-slate-300 border-dashed border-2 border-slate-700 dark:bg-teal-800 dark:border-sky-400">
+                <label className="block text-gray-900 dark:text-gray-200 text-lg font-semibold mb-2">
                   Update Profile Image
                 </label>
                 {/* Cloudinary upload button */}
@@ -266,19 +268,19 @@ const DashBoard = () => {
                 )}
               </div>
 
-              <div className="mt-4">
+              {/* <div className="mt-4">
                 <button
                   className="bg-red-600 text-white px-4 py-2 rounded-lg"
                   onClick={() => signOut()}
                 >
                   Sign Out
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
 
           {/* Main Dashboard */}
-          <div className="w-3/4">
+          <div className="w-3/4 ">
             <Tabs defaultValue="dashboard">
               <TabsList className="grid grid-cols-2 w-full">
                 <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
@@ -287,9 +289,11 @@ const DashBoard = () => {
               <TabsContent value="dashboard">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label className="block text-gray-400">Name</label>
+                    <label className="block dark:dark:text-gray-400 text-gray-900 text-gray-900">
+                      Name
+                    </label>
                     <input
-                      className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
+                      className="w-full p-3 rounded bg-slate-200 text-black dark:bg-gray-800 dark:text-white focus:outline-none"
                       type="text"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -298,9 +302,11 @@ const DashBoard = () => {
                   </div>
 
                   <div>
-                    <label className="block text-gray-400">Headline</label>
+                    <label className="block dark:text-gray-400 text-gray-900">
+                      Headline
+                    </label>
                     <input
-                      className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
+                      className="w-full p-3 rounded bg-slate-200 text-black dark:bg-gray-800 dark:text-white focus:outline-none"
                       type="text"
                       value={headline}
                       onChange={(e) => setHeadline(e.target.value)}
@@ -309,9 +315,11 @@ const DashBoard = () => {
                   </div>
 
                   <div>
-                    <label className="block text-gray-400">Intro</label>
+                    <label className="block dark:text-gray-400 text-gray-900">
+                      Intro
+                    </label>
                     <textarea
-                      className="w-full p-3 h-24 rounded bg-gray-800 text-white focus:outline-none"
+                      className="w-full p-3 h-24 rounded bg-slate-200 text-black dark:bg-gray-800 dark:text-white focus:outline-none"
                       value={intro}
                       onChange={(e) => setIntro(e.target.value)}
                       placeholder={profile?.intro || ""}
@@ -319,10 +327,12 @@ const DashBoard = () => {
                   </div>
 
                   <div>
-                    <label className="block text-gray-400">Skills</label>
+                    <label className="block dark:text-gray-400 text-gray-900">
+                      Skills
+                    </label>
                     <div className="flex space-x-2 mb-3">
                       <input
-                        className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
+                        className="w-full p-3 rounded bg-slate-200 text-black dark:bg-gray-800 dark:text-white focus:outline-none"
                         value={skillInput}
                         onChange={(e) => setSkillInput(e.target.value)}
                       />
@@ -367,17 +377,19 @@ const DashBoard = () => {
                 <div className="w-full">
                   {!editingProjectId ? (
                     <div>
-                      <h2 className="text-white text-2xl mb-4">Projects</h2>
+                      <h2 className="dark:text-white text-black text-2xl mb-4">
+                        Projects
+                      </h2>
                       <ul>
                         {projects.map((project) => (
                           <li
                             key={project._id}
-                            className="bg-gray-800 p-4 rounded-lg mb-4"
+                            className="dark:bg-gray-800 bg-slate-200 p-4 rounded-lg mb-4"
                           >
-                            <h3 className="text-white text-lg">
+                            <h3 className="dark:text-white text-black text-lg">
                               {project.title}
                             </h3>
-                            <p className="text-gray-400">
+                            <p className="dark:text-gray-400 text-gray-800 my-2">
                               {project.description}
                             </p>
                             <button
@@ -400,7 +412,9 @@ const DashBoard = () => {
                     <div>
                       <h2 className="text-white text-2xl mb-4">Edit Project</h2>
                       <div className="bg-gray-800 p-6 rounded-lg mb-4">
-                        <label className="text-gray-400">Title</label>
+                        <label className="dark:text-gray-400 text-gray-900">
+                          Title
+                        </label>
                         <input
                           type="text"
                           name="title"
@@ -408,14 +422,18 @@ const DashBoard = () => {
                           onChange={handleProjectFormChange}
                           className="w-full p-2 bg-gray-700 text-white rounded-lg mb-4"
                         />
-                        <label className="text-gray-400">Description</label>
+                        <label className="dark:text-gray-400 text-gray-900">
+                          Description
+                        </label>
                         <textarea
                           name="description"
                           value={newProject?.description || ""}
                           onChange={handleProjectFormChange}
                           className="w-full p-2 bg-gray-700 text-white rounded-lg mb-4"
                         />
-                        <label className="text-gray-400">Technologies</label>
+                        <label className="dark:text-gray-400 text-gray-900">
+                          Technologies
+                        </label>
                         <input
                           type="text"
                           name="technologies"
@@ -439,7 +457,9 @@ const DashBoard = () => {
                           }}
                           className="w-full p-2 bg-gray-700 text-white rounded-lg mb-4"
                         />
-                        <label className="text-gray-400">Status</label>
+                        <label className="dark:text-gray-400 text-gray-900">
+                          Status
+                        </label>
                         <input
                           type="text"
                           name="status"

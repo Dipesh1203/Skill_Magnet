@@ -93,15 +93,19 @@ const CreateProfile = () => {
   };
 
   return (
-    <div className="p-8 max-w-4xl mx-auto mt-10 bg-gradient-to-r from-gray-900 to-black rounded-lg shadow-lg">
-      <h1 className="text-white text-4xl font-bold mb-6">Create a Profile</h1>
+    <div className="p-8 max-w-4xl mx-auto mt-10 bg-gradient-to-r bg-slate-200 dark:bg-gray-900 rounded-lg shadow-lg">
+      <h1 className="dark:text-white text-black- text-4xl font-bold mb-6">
+        Create a Profile
+      </h1>
       {error && <p className="text-red-500 mb-4">{error}</p>}
-      {loading && <p className="text-white mb-4">Loading...</p>}
+      {loading && <p className="dark:text-white text-black mb-4">Loading...</p>}
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-gray-400">Name</label>
+          <label className="block dark:dark:text-gray-400 text-gray-700 text-gray-700">
+            Name
+          </label>
           <input
-            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
+            className="w-full p-3 rounded dark:bg-gray-800 bg-slate-300 dark:text-white text-black focus:outline-none"
             id="name"
             type="text"
             value={name}
@@ -110,9 +114,11 @@ const CreateProfile = () => {
           />
         </div>
         <div>
-          <label className="block text-gray-400">Headline</label>
+          <label className="block dark:text-gray-400 text-gray-700">
+            Headline
+          </label>
           <input
-            className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
+            className="w-full p-3 rounded dark:bg-gray-800 bg-slate-300 dark:text-white text-black focus:outline-none"
             id="headline"
             type="text"
             value={headline}
@@ -120,11 +126,14 @@ const CreateProfile = () => {
             required
           />
         </div>
-        <div>
-          <label className="block text-gray-400">Profile Image</label>
+        <div className="px-8 py-4 rounded-md bg-slate-300 border-dashed border-2 border-slate-700 dark:bg-teal-800 dark:border-sky-400">
+          <label className="block text-gray-900 dark:text-gray-200 text-lg font-semibold mb-2">
+            Profile Image
+          </label>
           {/* Cloudinary upload button */}
           <CldUploadButton
             uploadPreset="skill_magnet_image"
+            className="px-6 py-2 rounded-md bg-teal-600 text-white font-bold transition duration-200 hover:bg-teal-500 hover:text-white dark:bg-teal-500 dark:hover:bg-teal-400"
             onSuccess={handleImageUpload}
           />
 
@@ -132,14 +141,16 @@ const CreateProfile = () => {
             <img
               src={imageUrl}
               alt="Uploaded Image"
-              className="mt-4 w-32 h-32 rounded-full"
+              className="m-4 w-32 h-32 rounded-full border-2 border-gray-300 dark:border-gray-700"
             />
           )}
         </div>
         <div>
-          <label className="block text-gray-400">Intro</label>
+          <label className="block dark:text-gray-400 text-gray-700">
+            Intro
+          </label>
           <textarea
-            className="w-full p-3 h-24 rounded bg-gray-800 text-white focus:outline-none"
+            className="w-full p-3 h-24 rounded dark:bg-gray-800 bg-slate-300 dark:text-white text-black focus:outline-none"
             id="intro"
             value={intro}
             onChange={(e) => setIntro(e.target.value)}
@@ -147,10 +158,12 @@ const CreateProfile = () => {
           />
         </div>
         <div>
-          <label className="block text-gray-400">Skills</label>
+          <label className="block dark:text-gray-400 text-gray-700">
+            Skills
+          </label>
           <div className="flex space-x-2 mb-3">
             <input
-              className="w-full p-3 rounded bg-gray-800 text-white focus:outline-none"
+              className="w-full p-3 rounded dark:bg-gray-800 bg-slate-300 dark:text-white text-black focus:outline-none"
               id="skillInput"
               type="text"
               value={skillInput}

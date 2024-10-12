@@ -17,7 +17,6 @@ export default function ClientView({
 }>) {
   return (
     <>
-      <Navbar />
       <div className="w-full m-0 p-0 h-full">{children}</div>
     </>
   );
