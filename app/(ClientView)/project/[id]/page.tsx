@@ -26,6 +26,7 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
       //   return;
       // }
 
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
       const url = new URL(`/api/projects/${params.id}`, apiUrl);
 
       try {
@@ -92,6 +93,9 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
   if (error) {
     return <div className="text-red-500 text-center">Error: {error}</div>;
   }
+  console.log(project);
+  console.log(userProfile);
+
   return (
     <div className="p-8 max-w-6xl mx-auto mt-10 bg-gradient-to-r from-bg-black to-customBack_primary_1 rounded-lg shadow-lg">
       <div className="flex justify-between items-center mb-6">
@@ -114,22 +118,8 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
           /> */}
           <ImageCarousel images={project?.image || []} />
         </div>
-        <h2 className="dark:text-white text-black text-3xl font-bold mb-2">
-          {project?.title}
-        </h2>
-        <p className="dark:text-gray-300 text-gray-900 text-lg mb-4">
-          {project?.description}
-        </p>
-        {userProfile && (
-          <div className="my-4">
-            <Link
-              href={`/profile/${userProfile?._id}` || `#`}
-              className="dark:bg-blue-900 bg-green-400 text-white px-3 py-3 mx-auto rounded-lg text-sm"
-            >
-              Owner : {userProfile && userProfile?.name}
-            </Link>
-          </div>
-        )}
+        <h2 className="text-white text-3xl font-bold mb-2">{project?.title}</h2>
+        <p className="text-gray-300 text-lg mb-4">{project?.description}</p>
         <div className="flex flex-wrap gap-2 mb-4">
           {project?.technologies.map((tech, index) => (
             <span
