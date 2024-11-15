@@ -10,7 +10,7 @@ import ImageCarousel from "@/components/ImageCarousel";
 import { IProfile } from "@/app/models/profile.model";
 
 const ViewProject = ({ params }: { params: { id: string } }) => {
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
   const [project, setProject] = useState<IProject | null>(null);
   const [userProfile, setUserProfile] = useState<IProfile | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -20,11 +20,11 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
     async function fetchProject() {
-      if (status === "loading") return;
-      if (!session?.user) {
-        router.push("/api/auth/signin");
-        return;
-      }
+      // if (status === "loading") return;
+      // if (!session?.user) {
+      //   router.push("/api/auth/signin");
+      //   return;
+      // }
 
       const url = new URL(`/api/projects/${params.id}`, apiUrl);
 
@@ -54,7 +54,7 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
     }
     fetchProject();
     async function fetchProfile() {
-      if (status === "loading") return;
+      // if (status === "loading") return;
       if (!project?.ownerProfile) {
         return;
       }
@@ -87,32 +87,11 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
       }
     }
     fetchProfile();
-  }, [router, session, status, params.id]);
-
-  if (status === "loading") {
-    return <p className="text-center text-white">Loading...</p>;
-  }
-
-  if (!session) {
-    return (
-      <div className="flex flex-col p-5 text-center">
-        <p className="text-white">You need to sign in to view projects.</p>
-        <button
-          onClick={() => signOut()}
-          className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-        >
-          Sign Out
-        </button>
-      </div>
-    );
-  }
+  }, [router, params.id]);
 
   if (error) {
     return <div className="text-red-500 text-center">Error: {error}</div>;
   }
-  console.log(project);
-  console.log(userProfile);
-
   return (
     <div className="p-8 max-w-6xl mx-auto mt-10 bg-gradient-to-r from-bg-black to-customBack_primary_1 rounded-lg shadow-lg">
       <div className="flex justify-between items-center mb-6">
