@@ -7,7 +7,14 @@ const nextConfig = {
       "assets.aceternity.com",
       "encrypted-tbn0.gstatic.com",
       "res.cloudinary.com",
-    ], // Add external image domains here
+    ],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "**",
+      },
+    ],
   },
 };
 

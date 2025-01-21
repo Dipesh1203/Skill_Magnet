@@ -4,6 +4,7 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import ProjectCard from "@/components/Project/Project";
 import { IProject } from "@/app/models/projects.model";
+import AllUserProfiles from "../profile/all/page";
 
 interface Project {
   _id: string;
@@ -27,10 +28,6 @@ const ProjectsPage = () => {
   useEffect(() => {
     async function fetchProjects() {
       if (status === "loading") return;
-      // if (!session?.user) {
-      //   router.push("/api/auth/signin");
-      //   return;
-      // }
 
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
       const url = new URL(`/api/projects/`, apiUrl);
@@ -67,39 +64,32 @@ const ProjectsPage = () => {
     return <p>Loading...</p>;
   }
 
-  // if (!session) {
-  //   return (
-  //     <div className="flex flex-col p-5">
-  //       <p>You need to sign in to view projects.</p>
-  //       <button onClick={() => signOut()}>Sign Out</button>
-  //     </div>
-  //   );
-  // }
-
   return (
-    <div className="p-8 max-w-6xl mx-auto mt-10 bg-gradient-to-r from-bg-black to-customBack_primary_1 rounded-lg shadow-lg">
-      <div className="flex justify-between items-center mb-1">
-        <h1 className="dark:text-white text-black text-4xl font-bold">
-          Projects
-        </h1>
-      </div>
-
-      {error ? (
-        <div className="text-red-500">Error: {error}</div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project) => (
-            <>
-              <ProjectCard
-                key={project._id}
-                project={project}
-                defaultProjectImage={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6Pjlp3QsEwodfncokjV6dw7Ju9p4--J_PJg&usqp=CAU`}
-              />
-            </>
-          ))}
+    <>
+      <div className="p-8 max-w-6xl mx-auto mt-10 bg-gradient-to-r from-bg-black to-customBack_primary_1 rounded-lg shadow-lg">
+        <div className="flex justify-between items-center mb-1">
+          <h1 className="dark:text-white text-black text-4xl font-bold">
+            Projects
+          </h1>
         </div>
-      )}
-    </div>
+        {error ? (
+          <div className="text-red-500">Error: {error}</div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project) => (
+              <>
+                <ProjectCard
+                  key={project._id}
+                  project={project}
+                  defaultProjectImage={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6Pjlp3QsEwodfncokjV6dw7Ju9p4--J_PJg&usqp=CAU`}
+                />
+              </>
+            ))}
+          </div>
+        )}
+      </div>
+      <AllUserProfiles />
+    </>
   );
 };
 

@@ -8,6 +8,9 @@ export async function GET(request: NextRequest) {
 
   try {
     const users = await User.find({});
+    if (!users) {
+      return NextResponse.json({ msg: "User not found" }, { status: 404 });
+    }
     return NextResponse.json(users);
   } catch (error) {
     return NextResponse.json(
@@ -35,8 +38,15 @@ export async function POST(request: NextRequest) {
         { status: 409 }
       );
     }
-
     const newUser = await User.create(body);
+
+    if (!newUser) {
+      return NextResponse.json(
+        { msg: "Failed to create user" },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(newUser);
   } catch (error) {
     return NextResponse.json(

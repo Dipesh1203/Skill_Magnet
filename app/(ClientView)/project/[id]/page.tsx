@@ -10,7 +10,7 @@ import ImageCarousel from "@/components/ImageCarousel";
 import { IProfile } from "@/app/models/profile.model";
 
 const ViewProject = ({ params }: { params: { id: string } }) => {
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
   const [project, setProject] = useState<IProject | null>(null);
   const [userProfile, setUserProfile] = useState<IProfile | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -20,12 +20,7 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
     async function fetchProject() {
-      if (status === "loading") return;
-      if (!session?.user) {
-        router.push("/api/auth/signin");
-        return;
-      }
-
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
       const url = new URL(`/api/projects/${params.id}`, apiUrl);
 
       try {
@@ -54,12 +49,12 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
     }
     fetchProject();
     async function fetchProfile() {
-      if (status === "loading") return;
+      // if (status === "loading") return;
       if (!project?.ownerProfile) {
         return;
       }
       const url = new URL(`/api/profile/${project?.ownerProfile}`, apiUrl);
-      console.log(url);
+
       try {
         const res = await fetch(url.toString(), {
           credentials: "include",
@@ -67,7 +62,6 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
             "Content-Type": "application/json",
           },
         });
-        console.log(res);
 
         if (!res.ok) {
           const errorBody = await res.text();
@@ -77,7 +71,6 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
           throw new Error(`Failed to fetch profile: ${res.statusText}`);
         }
         const data = await res.json();
-        console.log(data);
 
         setUserProfile(data);
       } catch (err) {
@@ -87,31 +80,11 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
       }
     }
     fetchProfile();
-  }, [router, session, status, params.id]);
-
-  if (status === "loading") {
-    return <p className="text-center text-white">Loading...</p>;
-  }
-
-  if (!session) {
-    return (
-      <div className="flex flex-col p-5 text-center">
-        <p className="text-white">You need to sign in to view projects.</p>
-        <button
-          onClick={() => signOut()}
-          className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-        >
-          Sign Out
-        </button>
-      </div>
-    );
-  }
+  }, [router, params.id]);
 
   if (error) {
     return <div className="text-red-500 text-center">Error: {error}</div>;
   }
-  console.log(project);
-  console.log(userProfile);
 
   return (
     <div className="p-8 max-w-6xl mx-auto mt-10 bg-gradient-to-r from-bg-black to-customBack_primary_1 rounded-lg shadow-lg">
@@ -123,34 +96,10 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
 
       <div className="dark:bg-gray-800 bg-slate-200 p-6 rounded-lg shadow-md">
         <div className="mb-6">
-          {/* <img
-            src={
-              project?.image[0] ||
-              "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            width="200px"
-            height="100px"
-            alt={"Project Image"}
-            className="w-full h-96 object-cover rounded-lg"
-          /> */}
           <ImageCarousel images={project?.image || []} />
         </div>
-        <h2 className="dark:text-white text-black text-3xl font-bold mb-2">
-          {project?.title}
-        </h2>
-        <p className="dark:text-gray-300 text-gray-900 text-lg mb-4">
-          {project?.description}
-        </p>
-        {userProfile && (
-          <div className="my-4">
-            <Link
-              href={`/profile/${userProfile?._id}` || `#`}
-              className="dark:bg-blue-900 bg-green-400 text-white px-3 py-3 mx-auto rounded-lg text-sm"
-            >
-              Owner : {userProfile && userProfile?.name}
-            </Link>
-          </div>
-        )}
+        <h2 className="text-white text-3xl font-bold mb-2">{project?.title}</h2>
+        <p className="text-gray-300 text-lg mb-4">{project?.description}</p>
         <div className="flex flex-wrap gap-2 mb-4">
           {project?.technologies.map((tech, index) => (
             <span
