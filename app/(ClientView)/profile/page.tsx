@@ -3,16 +3,11 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import profileImage from "./../../public/assets/hero/heroImage.png";
 import Banner from "../../../components/Banner/Banner";
 import Skill from "../../../components/Skill/Skill";
 import Contact from "../../../components/Contact/Contact";
 import ViewProfileProject from "../../../components/Project/ViewProfileProject";
-import { LampContainer } from "@/components/ui/lamp";
-import * as motion from "framer-motion/client";
-import ProjectCard from "@/components/Project/Project";
 import { IProject } from "@/app/models/projects.model";
-import { ContainerScroll } from "@/components/ui/container-scroll-animation";
 
 interface UserProfile {
   _id: string;
@@ -23,7 +18,7 @@ interface UserProfile {
   headline: string;
   intro: string;
   skills: string[];
-  projects: IProject[]; // Consider defining a more specific type for projects
+  projects: IProject[];
 }
 
 export default function CurrentUserProfile() {
@@ -137,21 +132,6 @@ export default function CurrentUserProfile() {
     <>
       <Banner data={profile} />
       <Skill data={profile} />
-      {/* 
-      {projects && projects.length > 0 && (
-        <div className="w-4/5 flex flex-col mx-auto my-20 p-10 rounded-lg dark:bg-[#19376D]/30 backdrop-blur-md shadow-lg">
-          <h1 className="text-white text-4xl font-bold">Projects</h1>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects?.map((project) => (
-              <ProjectCard
-                key={project._id}
-                project={project}
-                defaultProjectImage={`https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6Pjlp3QsEwodfncokjV6dw7Ju9p4--J_PJg&usqp=CAU`}
-              />
-            ))}
-          </div>
-        </div>
-      )} */}
       <ViewProfileProject project={projects} />
       <Contact data={profile} />
     </>

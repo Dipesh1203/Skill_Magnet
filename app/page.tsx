@@ -76,10 +76,11 @@ const testimonials: TestimonialProfile[] = [
 ];
 
 const Home = async () => {
+  let testimonialProfile: UserProfile[];
   let profiles: UserProfile[];
-
   try {
-    profiles = await getAllUserProfiles();
+    testimonialProfile = await getAllUserProfiles();
+    profiles = testimonialProfile.slice(0, 3);
   } catch (error) {
     console.error("Error in AllUserProfiles component:", error);
     profiles = [];
@@ -105,7 +106,7 @@ const Home = async () => {
 
         <section className="mb-16">
           <h2 className="text-3xl font-semibold mb-10 text-center">
-            What Our Users Say
+            Our Users
           </h2>
           <div className="flex flex-wrap justify-center gap-8">
             {(profiles.length > 0 ? profiles : testimonials).map(

@@ -6,6 +6,14 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import profileImage from "/public/assets/hero/heroImage.png";
 import { MenuIcon, XIcon, SunIcon, MoonIcon } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 const Navigation = () => {
   const { data: session } = useSession();
@@ -14,10 +22,9 @@ const Navigation = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const items = [
-    { href: "/", label: "Home" },
-    { href: "/dashboard", label: "Dashboard" },
     { href: "/project", label: "Explore" },
-    { href: "/profile", label: "Profile" },
+    ...(session ? [{ href: "/profile", label: "Profile" }] : []),
+    ...(session ? [{ href: "/dashboard", label: "Dashboard" }] : []),
   ];
 
   useEffect(() => {
@@ -48,7 +55,7 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
             <h1 className="text-2xl font-extrabold font-outfit text-gray-900 dark:text-white">
-              Skill Magnet
+              <Link href="/">Skill Magnet</Link>{" "}
             </h1>
           </div>
 
@@ -83,19 +90,32 @@ const Navigation = () => {
 
             {session ? (
               <div className="flex items-center space-x-4">
-                <Image
-                  src={session?.user?.image || profileImage}
-                  alt="User profile image"
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                />
-                <button
-                  onClick={() => signOut()}
-                  className="font-outfit font-bold text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200"
-                >
-                  Sign out
-                </button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger>
+                    <Image
+                      src={session?.user?.image || profileImage}
+                      alt="User profile image"
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <Link href="/profile">
+                      <DropdownMenuLabel>My Profile</DropdownMenuLabel>
+                    </Link>
+                    <DropdownMenuSeparator />
+                    <Link href={"/dashboard"}>
+                      <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                    </Link>
+                    <button
+                      onClick={() => signOut()}
+                      className="font-outfit font-bold text-gray-800 dark:text-gray-200 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-200"
+                    >
+                      <DropdownMenuItem>Sign out</DropdownMenuItem>
+                    </button>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             ) : (
               <button

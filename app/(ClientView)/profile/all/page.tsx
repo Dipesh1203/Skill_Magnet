@@ -1,17 +1,11 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import defaultProfileIcon from "../../../../public/assets/defaultProfileIcon.png";
+import defaultProfileIcon from "@/public/assets/defaultProfileIcon.png";
 import { CardBody, CardContainer, CardItem } from "@/components/ui/3d-card";
+import { useQuery } from "@tanstack/react-query";
+import { fetchData } from "@/lib/utils";
 
 interface UserProfile {
   _id: string;
@@ -22,37 +16,9 @@ interface UserProfile {
   headline: string;
   intro: string;
   skills: string[];
-  projects: any[]; // You might want to define a more specific type for projects
+  projects: any[];
 }
 
-async function getAllUserProfiles(): Promise<UserProfile[]> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-  const url = new URL("/api/profile/all", apiUrl);
-
-  console.log(`Fetching all profiles from: ${url.toString()}`);
-
-  try {
-    const res = await fetch(url.toString(), {
-      next: { revalidate: 60 },
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!res.ok) {
-      const errorBody = await res.text();
-      console.error(`HTTP error! status: ${res.status}, body: ${errorBody}`);
-      throw new Error(`Failed to fetch user profiles: ${res.statusText}`);
-    }
-
-    const data = await res.json();
-    console.log("Fetched profiles data:", data);
-    return data;
-  } catch (error) {
-    console.error("Error in getAllUserProfiles:", error);
-    throw error;
-  }
-}
 function ProfileCard1({ profile }: { profile: UserProfile }) {
   return (
     <>
@@ -110,20 +76,31 @@ function ProfileCard1({ profile }: { profile: UserProfile }) {
   );
 }
 
-export default async function AllUserProfiles() {
-  let profiles: UserProfile[];
+export default function AllUserProfiles() {
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  // Fetch user profile
+  const {
+    data: profiles,
+    isLoading: profileLoading,
+    isError: profileError,
+    error: profileFetchError,
+  } = useQuery<UserProfile[], Error, UserProfile[]>({
+    queryKey: ["UserProfiles"],
+    queryFn: () => fetchData(`${apiUrl}/api/profile/all`),
+  });
 
-  try {
-    console.log("Attempting to fetch all user profiles");
-    profiles = await getAllUserProfiles();
-  } catch (error) {
-    console.error("Error in AllUserProfiles component:", error);
+  if (profileLoading) {
+    return <div className="text-center p-4">Loading profile...</div>;
+  }
+
+  if (profileError) {
+    console.error("Error in AllUserProfiles component:", profileFetchError);
     return (
       <div className="text-center text-red-500 p-4">
         <h2 className="text-xl font-bold mb-2">Error Loading Profiles</h2>
         <p>
-          {error instanceof Error
-            ? error.message
+          {profileFetchError instanceof Error
+            ? profileFetchError.message
             : "An unexpected error occurred"}
         </p>
         <p className="mt-2 text-sm">
@@ -142,11 +119,11 @@ export default async function AllUserProfiles() {
   }
 
   return (
-    <div className="dark:bg-[#0b24478c] bg-slate-100  max-w-6xl mx-auto p-8 rounded-md">
+    <div className="dark:bg-[#0b244700] bg-gradient-to-r from-bg-black to-customBack_primary_1  max-w-6xl mx-auto px-8 rounded-md">
       <h1 className="text-3xl font-bold  dark:text-slate-50 text-slate-6  700">
         Browse professionals
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {profiles.map((profile) => (
           <ProfileCard1 key={profile._id} profile={profile} />
         ))}

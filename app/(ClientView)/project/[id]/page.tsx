@@ -20,12 +20,6 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
   useEffect(() => {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
     async function fetchProject() {
-      // if (status === "loading") return;
-      // if (!session?.user) {
-      //   router.push("/api/auth/signin");
-      //   return;
-      // }
-
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
       const url = new URL(`/api/projects/${params.id}`, apiUrl);
 
@@ -60,7 +54,7 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
         return;
       }
       const url = new URL(`/api/profile/${project?.ownerProfile}`, apiUrl);
-      console.log(url);
+
       try {
         const res = await fetch(url.toString(), {
           credentials: "include",
@@ -68,7 +62,6 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
             "Content-Type": "application/json",
           },
         });
-        console.log(res);
 
         if (!res.ok) {
           const errorBody = await res.text();
@@ -78,7 +71,6 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
           throw new Error(`Failed to fetch profile: ${res.statusText}`);
         }
         const data = await res.json();
-        console.log(data);
 
         setUserProfile(data);
       } catch (err) {
@@ -93,8 +85,6 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
   if (error) {
     return <div className="text-red-500 text-center">Error: {error}</div>;
   }
-  console.log(project);
-  console.log(userProfile);
 
   return (
     <div className="p-8 max-w-6xl mx-auto mt-10 bg-gradient-to-r from-bg-black to-customBack_primary_1 rounded-lg shadow-lg">
@@ -106,16 +96,6 @@ const ViewProject = ({ params }: { params: { id: string } }) => {
 
       <div className="dark:bg-gray-800 bg-slate-200 p-6 rounded-lg shadow-md">
         <div className="mb-6">
-          {/* <img
-            src={
-              project?.image[0] ||
-              "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            }
-            width="200px"
-            height="100px"
-            alt={"Project Image"}
-            className="w-full h-96 object-cover rounded-lg"
-          /> */}
           <ImageCarousel images={project?.image || []} />
         </div>
         <h2 className="text-white text-3xl font-bold mb-2">{project?.title}</h2>
